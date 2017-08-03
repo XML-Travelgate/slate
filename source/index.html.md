@@ -2,13 +2,9 @@
 title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - json
+  - curl
   - csharp
   - go
-
-toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
   - errors
@@ -18,24 +14,59 @@ search: true
 
 # Introduction
 
-The SWAPPT API is composed by 3 big processes: 
+Welcome to the SWAPPT API Documentation! We are glad to have you here, come and take a walk to see what can our API offer to you.
+> We also have *Swagger*, check it out!
+> <br> <b><a href ='https://api.swappt.com/swagger'>https://api.swappt.com/swagger</a></b>
 
-- Payment
-- Notification
-- Tokenization. 
+SWAPPT API is a REST API that has an http POST call for each operation. It is composed by 3 big processes:
 
-This document describes all 3 processes and its respective APIs.
+- **Available payment methods:** Returns the available payment methods.
+- **Payment:** Runs a paymend and/or a fraud analysis.
+- **Tokenization:** Tokenization/retrieval of card data information.
 
-# Payment
 
-This is the main process; the process where a payment and/or fraud analysis is done (if the *SWAPPT Switcher* and/or *SWAPPT FDS* solutions are hired and activated). It requires only 2 calls to the SWAPPT API to do a payment: *Get Available Payment Methods*, and *Payment*. More actions can be done related to the payment process, a *Payment Details* call to retrieve the status and details of a payment, and a *Refund* call to refund a payment.
+## Endpoints
 
-## Payment: GetAvailablePaymentMethods
+The endpoints for each operation follow the same structure:
+
+> **EXAMPLE:**
+> Let's say that you belong to the organization named "test" and you want to use the version 1 of the SWAPPT API to do a **payment**. Your request would be the following:
+
+>`POST https://api.swappt.com/v1/organizations/test/payment`
+
+`POST https://api.swappt.com/v<VERSION_ID>/organizations/<ORGANIZATION_ID>/<OPERATION>`
+
+
+Parameter | Description
+--------- | -----------
+VERSION_ID | API Version.
+ORGANIZATION_ID | Your identifier as organization (that you will get when live).
+OPERATION | The operation to realize.
+
+
+**NOTE:** All the endpoints work around HTTPS. HTTP request **won't** work.
+
+
+## Authentication
+
+> **EXAMPLE:**
+```curl 
+curl https://api.swappt.com/v1/organizations/test/payment
+     -H "Authorization: ApiKey YourApiKey"
+````
+
+You need to authenticate when performing an API call. Moreover, the API will check your Authorization for every operation, so make sure that you have permissions to do every request that you want to do.
+
+In order to authenticate, you need to place the word 'ApiKey' followed by your API key on the **Authorization** header of your HTTP request.
+
+# GetAvailablePaymentMethods
 
 The first call that you must do is *available_payment_methods*. With this call, you will get the list of payment methods that you have available for the transaction and configuration specified. Note that this step is only mandatory for payments; for fraud analysis is not required.
 
+> AvailablePaymentMethodsRQ:
+
 ```json
-AvailablePaymentMethodsRQ {
+ {
   currency_amount (CurrencyAmount),
   departure (string,ptional),
   cancellation_expenses_beginning (string),
@@ -46,7 +77,6 @@ AvailablePaymentMethodsRQ {
   client_config (Key-Value)
 }
 ```
-
 
 
 * currency_amount: Payment base amount where taxes will be applied. (See section 1.1.1 for more information).
@@ -77,7 +107,9 @@ currency_code (string, mandatory)
 
 Payment amount specified in a concrete currency (*currency_code* must be specified in ISO3 (ISO 4217)).
 
-1.2 PAYMENT: *Payment*
+# Payment
+
+This is the main process; the process where a payment and/or fraud analysis is done (if the *SWAPPT Switcher* and/or *SWAPPT FDS* solutions are hired and activated). It requires only 2 calls to the SWAPPT API to do a payment: *Get Available Payment Methods*, and *Payment*. More actions can be done related to the payment process, a *Payment Details* call to retrieve the status and details of a payment, and a *Refund* call to refund a payment.
 
 As it was previously introduced, the *Payment* procedure is intended to do the main payment process and/or do a previous Fraud analysis. The request must have the following JSON structure:
 
@@ -517,246 +549,3 @@ process_moment (string)
     <td>Error could not be traced.</td>
   </tr>
 </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----
-
-# Introduction
-
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
-
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
-
-# Authentication
-
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
-
