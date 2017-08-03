@@ -49,7 +49,7 @@ OPERATION | The operation to realize.
 
 ## Authentication
 
-> **EXAMPLE:**
+
 ```curl 
 curl https://api.swappt.com/v1/organizations/test/payment
      -H "Authorization: ApiKey YourApiKey"
@@ -59,9 +59,9 @@ You need to authenticate when performing an API call. Moreover, the API will che
 
 In order to authenticate, you need to place the word 'ApiKey' followed by your API key on the **Authorization** header of your HTTP request.
 
-# GetAvailablePaymentMethods
+# AvailablePaymentMethods
 
-The first call that you must do is *available_payment_methods*. With this call, you will get the list of payment methods that you have available for the transaction and configuration specified. Note that this step is only mandatory for payments; for fraud analysis is not required.
+The first call that you must do is *available_payment_methods*. With this call, you will get the list of payment methods that you have available for the transaction and configuration specified. Note that this step is **mandatory** for payments but for fraud analysis is not required.
 
 > AvailablePaymentMethodsRQ:
 
@@ -78,31 +78,23 @@ The first call that you must do is *available_payment_methods*. With this call, 
 }
 ```
 
+Node | Type | Description
+---- | ---- | -----------
+currency_amount | CurrencyAmount | Payment base amount where taxes will be applied. (See section 1.1.1 for more information).
+departure | String |  
+cancellation_expenses_beginning | String | 
+excluded_methods | Array[String] | 
+fraud_information | FraudInformation | This node can indicate previous fraud information so only secure gateways are returned.
+only_secure_payment | Boolean | 
+session_code | String | 
+client_config | Key-Value | 
 
-* currency_amount: Payment base amount where taxes will be applied. (See section 1.1.1 for more information).
-
-* departure: 
-
-* cancellation_expenses_beginning:
-
-* excluded_methods:
-
-* fraud_information: This node can indicate previous fraud information so only secure gateways are returned.
-
-* only_secure_payment:
-
-* session_code:
-
-* client_config:
 
 1.1.1 CurrencyAmount:
 
 {
-
-amount (number, mandatory),
-
-currency_code (string, mandatory)
-
+  amount (number, mandatory),
+  currency_code (string, mandatory)
 }
 
 Payment amount specified in a concrete currency (*currency_code* must be specified in ISO3 (ISO 4217)).
@@ -355,31 +347,24 @@ gateway_code (string, optional)
 
 }
 
-1.3 PAYMENT: *Details*
+## Details
 
-DetailsRQ {
+> DetailsRQ
 
-search_type (string),
-
-transaction_id (string),
-
-transaction_start_time (string),
-
-transaction_end_time (string),
-
-session_code (string),
-
-client_config (Key-Value),
-
-source (Source),
-
-merchant_reference (string),
-
-payment_method (string) = ['Undefined', 'Visa', 'Mastercard', 'American_express', 'JCB', 'Union_pay', 'Diners_club', 'Hiper', 'Discover', 'Paysafecard', 'Sofort', 'Trustly', 'Offline_transference', 'Paga_mas_tarde', 'Instant_credit', 'Cetelem', 'Klarna', 'Paypal', 'Masterpass', 'Safety_pay', 'IUPay', 'Multibanco', 'Braspag', 'Limonetik', 'Cash'],
-
-gateway_code (string)
-
+```json
+{
+  search_type (string),
+  transaction_id (string),
+  transaction_start_time (string),
+  transaction_end_time (string),
+  session_code (string),
+  client_config (Key-Value),
+  source (Source),
+  merchant_reference (string),
+  payment_method (string) = ['Undefined', 'Visa', 'Mastercard', 'American_express', 'JCB', 'Union_pay', 'Diners_club', 'Hiper', 'Discover', 'Paysafecard', 'Sofort', 'Trustly', 'Offline_transference', 'Paga_mas_tarde', 'Instant_credit', 'Cetelem', 'Klarna', 'Paypal', 'Masterpass', 'Safety_pay', 'IUPay', 'Multibanco', 'Braspag', 'Limonetik', 'Cash'],
+  gateway_code (string)
 }
+```
 
 * _search_type_: This node specifies what type of search is this request based on. Possible values are *'ByTransaction' *and *'ByDates'*. The first one will launch a transaction search by its transaction id and the node *transaction_id *MUST be specified. For the second value, *transaction_start_time *and *transaction_end_time* nodes MUST be specified for them are the limits of the date search.
 
@@ -391,51 +376,49 @@ gateway_code (string)
 
 * _gateway_code_: indicates the code of the gateway where the payment details should be consulted.
 
-1.4 PAYMENT: *Refund*
+## Refund
 
 TODO
 
-2. NOTIFICATION
 
-This process is the entry point for gateways to deliver his notifications. An usual use case is when the gateway confirms/cancels a payment and informs us about that event. 
+# Tokenization
 
-3. TOKENIZATION
+This is the core process of *SWAPPT*s *Vault* solution. As you may know, this process is used to tokenize credit cards and, of course, retrieve them. 
 
-3.1 TOKENIZATION: *Tokenize*
+
+## Tokenize
 
 *SWAPPT Vault*’s tokenization is used to tokenize credit cards. The structure of the body must match the following:
 
-TokenizeRQ {
+> TokenizeRQ
 
-credit_card {
-
-  number (string),
-
-expiration_month (integer),
-
-expiration_year (integer),
-
-security_code (string)
-
+```json
+{
+  credit_card {
+    number (string),
+    expiration_month (integer),
+    expiration_year (integer),
+    security_code (string)
+  }
 }
-
-}
+```
 
 This call will provoke the system to save that information, and will return a unique token. The response structure is:
 
-TokenizeRS {
+> TokenizeRS 
 
-token (string),
-
-error_details (ErrorDetails),
-
-status (string) 
-
+```json
+{
+  token (string),
+  error_details (ErrorDetails),
+  status (string) 
 }
+```
 
 Where status takes the values '*Success'* or '*Error'*. If *Success*, *token *contains the unique token, if *Error*, *error_details* contains information related to the error occurred (see *Appendix *for a deep description). Note that the token returned has 1 unique use. When used, the system will provide a new one (if desired), and will make the used one useless.
 
-3.2 TOKENIZATION: *Retrieve*
+
+## Retrieve
 
 This call will return the information associated to a token. Moreover, if you wish the data to remain saved, you should set the *retain *field to *True*, other input will cause the data to be invalidated after returning it. The structure of the body is very simple:
 
