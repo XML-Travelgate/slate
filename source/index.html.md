@@ -92,12 +92,14 @@ client_config | Key-Value |
 
 1.1.1 CurrencyAmount:
 
+The CurrencyAmount specifies the amount and the currency used for this payment. The currency code must be specified in ISO3 (ISO 4217)) format
+
+```json
 {
   amount (number, mandatory),
   currency_code (string, mandatory)
 }
-
-Payment amount specified in a concrete currency (*currency_code* must be specified in ISO3 (ISO 4217)).
+```
 
 # Payment
 
@@ -105,247 +107,174 @@ This is the main process; the process where a payment and/or fraud analysis is d
 
 As it was previously introduced, the *Payment* procedure is intended to do the main payment process and/or do a previous Fraud analysis. The request must have the following JSON structure:
 
+```json
 ProcessRQ {
-
-card_data (*CardData*, optional),
-
-card_type (string, optional)*,
-
-currency_amount (*CurrencyAmount*, mandatory),
-
-sender_details (*SenderDetails*, mandatory),
-
-session_code (string, mandatory),
-
-fraud_process (*FraudProcessRQ*, optional),
-
-payment_process (*PaymentProcessRQ*, optional)
-
+  card_data (*CardData*, optional),
+  card_type (string, optional)*,
+  currency_amount (*CurrencyAmount*, mandatory),
+  sender_details (*SenderDetails*, mandatory),
+  session_code (string, mandatory),
+  fraud_process (*FraudProcessRQ*, optional),
+  payment_process (*PaymentProcessRQ*, optional)
 }
+```
 
-*fraud_process *field must be filled if a fraud analysis must be done, as *payment_process *must be filled if a payment must too.
+*fraud_process* field must be filled if you wish to perform a fraud analysis.
+Likewise the *payment_process* must be filled if you're performing a payment.
 
-* Valid values are *Explicit*, *Encrypted*, *Tokenized. *A null *card_type* will ignore the *card_data* information.
+* Valid values are:
+
+- *Explicit*
+- *Encrypted*
+- *Tokenized. 
+
+> A null *card_type* will ignore the *card_data* information.
+
 
 1.2.1 Card Data:
 
+```json
 {
-
-encrypted_data (string, optional),
-
-store_card_info (bool, optional),
-
-tokenized_data (string, optional),
-
-number (string, optional),
-
-expiration_month (integer, optional),
-
-expiration_year (integer, optional),
-
-security_code (string, optional)
-
+  encrypted_data (string, optional),
+  store_card_info (bool, optional),
+  tokenized_data (string, optional),
+  number (string, optional),
+  expiration_month (integer, optional),
+  expiration_year (integer, optional),
+  security_code (string, optional)
 }
+```
 
-* _store_card_info:_ indicates whether or not should the information be stored and tokenized for future uses by the *SWAPPT Vault* service.
-
-* _encrypted_data_: card data information encrypted by the *SWAPPT CSE JavaScript*. Mandatory if *card_type* is *Encrypted*.
-
-* _tokenized_data_: token pointing the data previously stored on *SWAPPT Vault*. Mandatory if *card_type* is *Tokenized*.
-
-* _number: _card number. Mandatory if *card_type* is *Explicit*.
-
-* _expiration_month: _card expiration month. Mandatory if *card_type* is *Explicit*.
-
-* _expiration_year: _card expiration year. Mandatory if *card_type* is *Explicit*.
-
-* _security_code: _card security code. Mandatory if *card_type* is *Explicit*.
+- store_card_info: indicates whether or not should the information be stored and tokenized for future uses by the *SWAPPT Vault* service.
+- encrypted_data: card data information encrypted by the *SWAPPT CSE JavaScript*. Mandatory if *card_type* is *Encrypted*.
+- tokenized_data: token pointing the data previously stored on *SWAPPT Vault*. Mandatory if *card_type* is *Tokenized*.
+- number: card number. Mandatory if *card_type* is *Explicit*.
+- expiration_month: card expiration month. Mandatory if *card_type* is *Explicit*.
+- expiration_year: card expiration year. Mandatory if *card_type* is *Explicit*.
+- security_code: card security code. Mandatory if *card_type* is *Explicit*.
 
 1.2.2 SenderDetails:
 
+```json
 {
-
-holder (string, optional),
-
-id (string, optional),
-
-name (string, optional),
-
-surname (string, optional),
-
-email (string, optional),
-
-phone_number (string, optional),
-
-ssn (string, optional),
-
-address (Address, optional),
-
-billing_address (Address, optional),
-
-sender_bank_details (BankDetails, optional),
-
-recipient_bank_details (BankDetails, optional)
-
+  holder (string, optional),
+  id (string, optional),
+  name (string, optional),
+  surname (string, optional),
+  email (string, optional),
+  phone_number (string, optional),
+  ssn (string, optional),
+  address (Address, optional),
+  billing_address (Address, optional),
+  sender_bank_details (BankDetails, optional),
+  recipient_bank_details (BankDetails, optional)
 }
+```
 
-* _holder_: Holder name and surname
-
-* _id_: 
-
-* _name_: Sender name
-
-* _surname_: Sender surname
-
-* _email_: Sender email
-
-* _phone_number_: Sender phone number
-
-* _ssn_: Social Security Number
-
-* _address_: Sender address (see "*Address*" structure in 1.2.3.1)
-
-* _billing_address_: Billing address (see "*Address*" structure in 1.2.3.1)
-
-* _sender_bank_details_: Sender bank details(see "*BankDetails*" structure in 1.2.3.2)
-
-* _recipient_bank_details_: Recipent bank details (see "*BankDetails*" structure in 1.2.3.2)
+- holder: Holder name and surname
+- id: 
+- name_: Sender name
+- surname: Sender surname
+- email: Sender email
+- phone_number: Sender phone number
+- ssn: Social Security Number
+- address: Sender address (see "*Address*" structure in 1.2.3.1)
+- billing_address: Billing address (see "*Address*" structure in 1.2.3.1)
+- sender_bank_details: Sender bank details(see "*BankDetails*" structure in 1.2.3.2)
+- recipient_bank_details: Recipent bank details (see "*BankDetails*" structure in 1.2.3.2)
 
 1.2.2.1 Address:
 
+```json
 {
-
-country_code (string, optional),
-
-city (string, optional),
-
-address_line1 (string, optional),
-
-address_line2 (string, optional),
-
-zip_code (string, optional)
-
+  country_code (string, optional),
+  city (string, optional),
+  address_line1 (string, optional),
+  address_line2 (string, optional),
+  zip_code (string, optional)
 }
+```
 
-* _country_code_: ISO3 country code
-
-* _city_: City name
-
-* _address_line1_: Address line 1 (main)
-
-* _address_line2:_ Address line 2 (additional information)
-
-* _zip_code: _Adress zip code
+- country_code: ISO3 country code
+- city: City name
+- address_line1: Address line 1 (main)
+- address_line2: Address line 2 (additional information)
+- zip_code: Adress zip code
 
 1.2.2.2 BankDetails:
 
+```json
 {
-
-bic (string, optional),
-
-holder (string, optional),
-
-bank_account (BankAccount, optional),
-
-bank_name (string, optional),
-
-country_code (string, optional),
-
-iban (string, optional)
-
+  bic (string, optional),
+  holder (string, optional),
+  bank_account (BankAccount, optional),
+  bank_name (string, optional),
+  country_code (string, optional),
+  iban (string, optional)
 }
+```
 
-* _bic_: (string, optional),
-
-* _holder_: (string, optional),
-
-* _bank_account_: (BankAccount, optional),
-
-* _bank_name_: (string, optional),
-
-* _country_code_: (string, optional),
-
-* _iban_: (string, optional)
+- bic: (string, optional),
+- holder: (string, optional),
+- bank_account: (BankAccount, optional),
+- bank_name: (string, optional),
+- country_code: (string, optional),
+- iban: (string, optional)
 
 1.2.2.2.1 BankAccount:
 
+```json
 {
-
-number (string, optional),
-
-security_code (string, optional)
-
+  number (string, optional),
+  security_code (string, optional)
 }
+```
 
 Number and security code of the bank account.
 
 1.2.3 FraudProcessRQ :
 
+```json
 {
-
-enabled (boolean, optional),
-
-rules_module (Array[SkeeperRule], optional),
-
-default_result (string, optional),
-
-device_fingerprint (string, optional),
-
-ip_address (string, optional),
-
-session_id (string, optional),
-
-custom_data (Key-Value, optional)
-
+  enabled (boolean, optional),
+  rules_module (Array[SkeeperRule], optional),
+  default_result (string, optional),
+  device_fingerprint (string, optional),
+  ip_address (string, optional),
+  session_id (string, optional),
+  custom_data (Key-Value, optional)
 }
+```
 
-* _enabled:_ Indicates whether or not a fraud analysis must be done.
+- enabled: Indicates whether or not a fraud analysis must be done.
+- rules_module: Array of Fraud rules to be applied (if no rules specified, it will be used the configured ones on the *SWAPPT FDS *website.
+- default_result: The result that must be returned if no rule is triggered (mandatory if rules provided on the request). Values can be *'Undefined'*, *'Accept'*, *'Reject'* or *'AcceptWithSecurePayment'*.
+- defice_fingerprint: Customer’s device ID.
+- ip_address: Customer’s IP Address.
+- session_id: Customer’s navigation session ID.
+- custom_data: Additional data that Fraud should know. It is a Key-Value field, where Keys are *SWAPPT FDS*’s tool names and values are the configurations for that tools:
 
-* _rules_module:_ Array of Fraud rules to be applied (if no rules specified, it will be used the configured ones on the *SWAPPT FDS *website.
-
-* _default_result:_ The result that must be returned if no rule is triggered (mandatory if rules provided on the request). Values can be *'Undefined'*, *'Accept'*, *'Reject'* or *'AcceptWithSecurePayment'*.
-
-* _defice_fingerprint: _Customer’s device ID.
-
-* _ip_address: _Customer’s IP Address.
-
-* _session_id: _Customer’s navigation session ID.
-
-* _custom_data: _Additional data that Fraud should know. It is a Key-Value field, where Keys are *SWAPPT FDS*’s tool names and values are the configurations for that tools:
-
-    * *Protect*: Key-Value containing the Custom Fields of the transaction, where Key is the Custom Field name, and Value it’s value (Custom Fields must be previously configured con *SWAPPT Protect*’s website, more info Here).
-
-    * *V5*: Comming soon
-
-    * *Sift_science*: Comming soon
+- *Protect*: Key-Value containing the Custom Fields of the transaction, where Key is the Custom Field name, and Value it’s value (Custom Fields must be previously configured con *SWAPPT Protect*’s website, more info Here).
+- V5: Comming soon
+- Sift_science: Comming soon
 
 1.2.4 PaymentProcessRQ:
 
+```json
 {
-
-enabled (boolean, optional),
-
-tokenization (Tokenization, optional),
-
-reference_token (string, optional),
-
-payment_details (PaymentDetails, optional),
-
-callback_url_fail (string, optional),
-
-callback_url_success (string, optional),
-
-client_config (inline_model_1, optional),
-
-source (Source, optional),
-
-merchant_reference (string, optional),
-
-payment_method (string, optional) = ['Undefined', 'Visa', 'Mastercard', 'American_express', 'JCB', 'Union_pay', 'Diners_club', 'Hiper', 'Discover', 'Paysafecard', 'Sofort', 'Trustly', 'Offline_transference', 'Paga_mas_tarde', 'Instant_credit', 'Cetelem', 'Klarna', 'Paypal', 'Masterpass', 'Safety_pay', 'IUPay', 'Multibanco', 'Braspag', 'Limonetik', 'Cash'],
-
-gateway_code (string, optional)
-
+  enabled (boolean, optional),
+  tokenization (Tokenization, optional),
+  reference_token (string, optional),
+  payment_details (PaymentDetails, optional),
+  callback_url_fail (string, optional),
+  callback_url_success (string, optional),
+  client_config (inline_model_1, optional),
+  source (Source, optional),
+  merchant_reference (string, optional),
+  payment_method (string, optional) = ['Undefined', 'Visa', 'Mastercard', 'American_express', 'JCB', 'Union_pay', 'Diners_club', 'Hiper', 'Discover', 'Paysafecard', 'Sofort', 'Trustly', 'Offline_transference', 'Paga_mas_tarde', 'Instant_credit', 'Cetelem', 'Klarna', 'Paypal', 'Masterpass', 'Safety_pay', 'IUPay', 'Multibanco', 'Braspag', 'Limonetik', 'Cash'],
+  gateway_code (string, optional)
 }
+```
 
 ## Details
 
@@ -366,19 +295,15 @@ gateway_code (string, optional)
 }
 ```
 
-* _search_type_: This node specifies what type of search is this request based on. Possible values are *'ByTransaction' *and *'ByDates'*. The first one will launch a transaction search by its transaction id and the node *transaction_id *MUST be specified. For the second value, *transaction_start_time *and *transaction_end_time* nodes MUST be specified for them are the limits of the date search.
-
-* session_code:
-
-* client_config: the client configuration
-
-* payment_method:
-
-* _gateway_code_: indicates the code of the gateway where the payment details should be consulted.
+- search_type: This node specifies what type of search is this request based on. Possible values are *'ByTransaction' *and *'ByDates'*. The first one will launch a transaction search by its transaction id and the node *transaction_id *MUST be specified. For the second value, *transaction_start_time *and *transaction_end_time* nodes MUST be specified for them are the limits of the date search.
+- session_code:
+- client_config: the client configuration
+- payment_method:
+- gateway_code: indicates the code of the gateway where the payment details should be consulted.
 
 ## Refund
 
-TODO
+> TODO
 
 
 # Tokenization
@@ -422,113 +347,51 @@ Where status takes the values '*Success'* or '*Error'*. If *Success*, *token *co
 
 This call will return the information associated to a token. Moreover, if you wish the data to remain saved, you should set the *retain *field to *True*, other input will cause the data to be invalidated after returning it. The structure of the body is very simple:
 
+```json
 RetrieveRQ {
-
-token (string),
-
-retain (boolean)
-
+  token (string),
+  retain (boolean)
 }
+```
 
 The response is rather as exposed:
 
+```json
 RetrieveRS {
-
-data (TokenizeRQ),
-
-token (string),
-
-error_details (ErrorDetails),
-
-status (string) = ['Success', 'Error']
-
+  data (TokenizeRQ),
+  token (string),
+  error_details (ErrorDetails),
+  status (string) = ['Success', 'Error']
 }
+```
 
 As for *Tokenize*, for a *Sucess status*, *data *will contain the data that was introduced during *Tokenize *call and *token *will contain the new token if data was asked to remain saved. For an *Error status*, *error_details* will contain information related to the error occurred (see *Appendix *for a deep description).
 
 4. APPENDIX: _ErrorDetails_
 
+```json
 ErrorDetails {
-
-error_type (string)
-
-error_messages (Array[GlobalError])
-
+  error_type (string)
+  error_messages (Array[GlobalError])
 }
+```
 
 An *ErrorDetails *field will contain 2 fields. *error_types *determines the *SWAPPT *Solution where the error was caused (*'FDS*, *'Switcher'*, *'Vault'*) or *'Technical' *in case of internal error. On the *error_messages *field are gathered all the errors appeared during the execution. It has a simple structure:
 
+```json
 GlobalError {
-
-code (string),
-
-description (string),
-
-field (string),
-
-process_moment (string)
-
+  code (string),
+  description (string),
+  field (string),
+  process_moment (string)
 }
+```
 
-* _code: _The error code (you can see the possible error codes on section 4.1) 
-
-* _description: _Provides a textual description of the error cause.
-
-* _field: _Contains the field that is related to the error (for example in *400’s *errors), and 
-
-* _process_moment:_ Says when the error was produced (*BeforeCallProvider*, *WhileCallingProvider*, *AfterCallProvider*), which will help us to detect the error and will tell you if the provider call was done.
+- code: The error code (you can see the possible error codes on section 4.1) 
+- description: Provides a textual description of the error cause.
+- field: Contains the field that is related to the error (for example in *400’s *errors), and 
+- process_moment: Says when the error was produced (*BeforeCallProvider*, *WhileCallingProvider*, *AfterCallProvider*), which will help us to detect the error and will tell you if the provider call was done.
 
 4.1 APPENDIX: Error Codes
 
-<table>
-  <tr>
-    <td>Code</td>
-    <td>Name</td>
-    <td>Description</td>
-  </tr>
-  <tr>
-    <td>400</td>
-    <td>Bad_Request</td>
-    <td>Request does not match the specification.</td>
-  </tr>
-  <tr>
-    <td>401</td>
-    <td>Unauthorized</td>
-    <td>User not authorized for that operation.</td>
-  </tr>
-  <tr>
-    <td>403</td>
-    <td>Forbidden</td>
-    <td>Invalid user.</td>
-  </tr>
-  <tr>
-    <td>404</td>
-    <td>Not_Found</td>
-    <td>Something requested was not found.</td>
-  </tr>
-  <tr>
-    <td>408</td>
-    <td>Request_Timeout</td>
-    <td>Timeout (tipically on provider’s side).</td>
-  </tr>
-  <tr>
-    <td>409</td>
-    <td>Conflict</td>
-    <td>Conflict with the configuration (e.g. FDS returns SecurePayment and referencing a non secure gateway).</td>
-  </tr>
-  <tr>
-    <td>410</td>
-    <td>Gone</td>
-    <td>Resource not yet avaliable.</td>
-  </tr>
-  <tr>
-    <td>500</td>
-    <td>Internal_Server_Error</td>
-    <td>System internal error (contact SWAPPT team).</td>
-  </tr>
-  <tr>
-    <td>1000</td>
-    <td>Undefined</td>
-    <td>Error could not be traced.</td>
-  </tr>
-</table>
+
