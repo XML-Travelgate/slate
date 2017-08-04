@@ -201,7 +201,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[&quot;curl&quot;,&quot;csharp&quot;,&quot;go&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -211,10 +211,9 @@
     <div class="toc-wrapper">
       <img src="images/logo.png" class="logo" alt="Logo" />
         <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="python">python</a>
-              <a href="#" data-language-name="javascript">javascript</a>
+              <a href="#" data-language-name="curl">curl</a>
+              <a href="#" data-language-name="csharp">csharp</a>
+              <a href="#" data-language-name="go">go</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -223,21 +222,57 @@
       <div id="toc" class="toc-list-h1">
           <li>
             <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
-          </li>
-          <li>
-            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
-          </li>
-          <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Kittens">Get All Kittens</a>
+                    <a href="#endpoints" class="toc-h2 toc-link" data-title="Introduction">Endpoints</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Kittens">Get a Specific Kitten</a>
+                    <a href="#authentication" class="toc-h2 toc-link" data-title="Introduction">Authentication</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#availablepaymentmethods" class="toc-h1 toc-link" data-title="AvailablePaymentMethods">AvailablePaymentMethods</a>
+          </li>
+          <li>
+            <a href="#payment" class="toc-h1 toc-link" data-title="Payment">Payment</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#card-data" class="toc-h2 toc-link" data-title="Payment">Card Data:</a>
                   </li>
                   <li>
-                    <a href="#delete-a-specific-kitten" class="toc-h2 toc-link" data-title="Kittens">Delete a Specific Kitten</a>
+                    <a href="#senderdetails" class="toc-h2 toc-link" data-title="Payment">SenderDetails:</a>
+                  </li>
+                  <li>
+                    <a href="#fraudprocessrq" class="toc-h2 toc-link" data-title="Payment">FraudProcessRQ :</a>
+                  </li>
+                  <li>
+                    <a href="#paymentprocessrq" class="toc-h2 toc-link" data-title="Payment">PaymentProcessRQ:</a>
+                  </li>
+                  <li>
+                    <a href="#details" class="toc-h2 toc-link" data-title="Payment">Details</a>
+                  </li>
+                  <li>
+                    <a href="#refund" class="toc-h2 toc-link" data-title="Payment">Refund</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#tokenization" class="toc-h1 toc-link" data-title="Tokenization">Tokenization</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#tokenize" class="toc-h2 toc-link" data-title="Tokenization">Tokenize</a>
+                  </li>
+                  <li>
+                    <a href="#retrieve" class="toc-h2 toc-link" data-title="Tokenization">Retrieve</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#appendix" class="toc-h1 toc-link" data-title="Appendix">Appendix</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#errordetails" class="toc-h2 toc-link" data-title="Appendix">ErrorDetails</a>
                   </li>
               </ul>
           </li>
@@ -245,198 +280,906 @@
             <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
           </li>
       </div>
-        <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
-        </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+<p>Welcome to the SWAPPT API Documentation! We are glad to have you here, come and take a walk to see what can our API offer to you.</p>
 
-<p>We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
-
-<p>This example API documentation page was created with <a href="https://github.com/tripit/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&#39;s documentation.</p>
-<h1 id='authentication'>Authentication</h1>
 <blockquote>
-<p>To authorize, use this code:</p>
-</blockquote>
-<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-</code></pre>
-<blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
+<p>We also have <em>Swagger</em>, check it out!
+<br> <b><a href ='https://api.swappt.com/swagger'>https://api.swappt.com/swagger</a></b></p>
 </blockquote>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+<p>SWAPPT API is a REST API that has an http POST call for each operation. It is composed by 3 big processes:</p>
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+<ul>
+<li><strong>Available payment methods:</strong> Returns the available payment methods.</li>
+<li><strong>Payment:</strong> Runs a paymend and/or a fraud analysis.</li>
+<li><strong>Tokenization:</strong> Tokenization/retrieval of card data information.</li>
+</ul>
+<h2 id='endpoints'>Endpoints</h2>
+<p>The endpoints for each operation follow the same structure:</p>
 
-<p><code>Authorization: meowmeowmeow</code></p>
+<blockquote>
+<p><strong>EXAMPLE:</strong>
+Let&#39;s say that you belong to the organization named &quot;test&quot; and you want to use the version 1 of the SWAPPT API to do a <strong>payment</strong>. Your request would be the following:</p>
+
+<p><code>POST https://api.swappt.com/v1/organizations/test/payment</code></p>
+</blockquote>
+
+<p><code>POST https://api.swappt.com/v&lt;VERSION_ID&gt;/organizations/&lt;ORGANIZATION_ID&gt;/&lt;OPERATION&gt;</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>VERSION_ID</td>
+<td>API Version.</td>
+</tr>
+<tr>
+<td>ORGANIZATION_ID</td>
+<td>Your identifier as organization (that you will get when live).</td>
+</tr>
+<tr>
+<td>OPERATION</td>
+<td>The operation to realize.</td>
+</tr>
+</tbody></table>
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
+<h2 id='authentication'>Authentication</h2><pre class="highlight plaintext"><code>curl https://api.swappt.com/v1/organizations/test/payment
+     -H "Authorization: ApiKey YourApiKey"
 </code></pre>
+<p>You need to authenticate when performing an API call. Moreover, the API will check your Authorization for every operation, so make sure that you have permissions to do every request that you want to do.</p>
+
+<p>In order to authenticate, you need to place the word &#39;ApiKey&#39; followed by your API key on the <strong>Authorization</strong> header of your HTTP request.</p>
+<h1 id='availablepaymentmethods'>AvailablePaymentMethods</h1>
+<p>The first call that you must do is <em>available_payment_methods</em>. With this call, you will get the list of payment methods that you have available for the transaction and configuration specified. Note that this step is <strong>mandatory</strong> for payments but for fraud analysis is not required.</p>
+
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>AvailablePaymentMethodsRS example:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"currency_amount"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"amount"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"currency_code"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"departure"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-04T06:50:05.498Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cancellation_expenses_beginning"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-04T06:50:05.498Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"excluded_methods"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"Mastercard"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"fraud_information"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"departure_datetime_utc"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-04T06:50:05.498Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"customer_has_trusted_bookings"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"customer_is_fraud_suspicious"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"product_predisposed_to_be_fraud"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"only_secure_payment"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"session_code"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"client_config"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"my_config_key_1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_value1"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Node</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>currency_amount</td>
+<td>CurrencyAmount</td>
+<td>Payment base amount where taxes will be applied. (More information below).</td>
+</tr>
+<tr>
+<td>departure</td>
+<td>String</td>
+<td></td>
+</tr>
+<tr>
+<td>cancellation_expenses_beginning</td>
+<td>String</td>
+<td></td>
+</tr>
+<tr>
+<td>excluded_methods</td>
+<td>Array[String]</td>
+<td></td>
+</tr>
+<tr>
+<td>fraud_information</td>
+<td>FraudInformation</td>
+<td>This node can indicate previous fraud information so only secure gateways are returned.</td>
+</tr>
+<tr>
+<td>only_secure_payment</td>
+<td>Boolean</td>
+<td></td>
+</tr>
+<tr>
+<td>session_code</td>
+<td>String</td>
+<td></td>
+</tr>
+<tr>
+<td>client_config</td>
+<td>Key-Value</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p>==== BASE ====
+1.1.1 CurrencyAmount:</p>
+
+<p>The CurrencyAmount specifies the amount and the currency used for this payment. The currency code must be specified in ISO3 (ISO 4217)) format</p>
+
+<table><thead>
+<tr>
+<th>Node</th>
+<th>Type</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>amount</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>currency_code</td>
+<td>String</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+<i>currency_code</i> must be specified in ISO3 (ISO 4217)
+</aside>
+<h1 id='payment'>Payment</h1>
+<p>This is the main process; the process where a payment and/or fraud analysis is done (if the <em>SWAPPT Switcher</em> and/or <em>SWAPPT FDS</em> solutions are hired and activated). It requires only 2 calls to the SWAPPT API to do a payment: <em>Get Available Payment Methods</em>, and <em>Payment</em>. More actions can be done related to the payment process, a <em>Payment Details</em> call to retrieve the status and details of a payment, and a <em>Refund</em> call to refund a payment.</p>
+
+<p>As it was previously introduced, the <em>Payment</em> procedure is intended to do the main payment process and/or do a previous Fraud analysis. The request must have the following JSON structure:
+==== BASE ====</p>
+
+<blockquote>
+<p>ProcessRS example:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"fraud_response"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Success"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
+  </span><span class="s2">"payment_response"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"transaction"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Expirable"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"recurring_payment_details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-04T06:50:05.513Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"schedule_details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"profile_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"reason"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"payment_period"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"billing_period"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Day"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"billing_frequency"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"currency_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"shipping_amount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"currency_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"tax_amount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"currency_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"profile_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"profile_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Active"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"auto_bill_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NoAutoBill"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"max_failed_payments"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"recurring_payment_summary_details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"next_billing_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-04T06:50:05.514Z"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"number_cycles_completed"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"number_cycles_remaining"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"failed_payment_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"last_payment_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-04T06:50:05.514Z"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"last_payment_amount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"currency_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"recurring_payment_profile_details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"billing_start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-04T06:50:05.515Z"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"profile_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"aggregate_amount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"currency_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"aggregate_optional_amount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"currency_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"credit_card_details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"credit_card_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"credit_card_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"exp_month"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"exp_year"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"expiration_datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-04T06:50:05.518Z"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"billing_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"None"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"status_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"merchant_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"currency_amount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"currency_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"authorization_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"sender_details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"holder"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"surname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"phone_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"ssn"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"address_line1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"address_line2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"zip_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"billing_address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"address_line1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"address_line2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"zip_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"sender_bank_details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"bic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"holder"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"bank_account"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"security_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"bank_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"iban"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"recipient_bank_details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"bic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"holder"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"bank_account"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"security_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"bank_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"iban"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"reasons"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="s2">"provider_transaction_object"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+      </span><span class="s2">"pending_reason"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"payment_method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"entity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"transaction_datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-04T06:50:05.519Z"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"payment_method_details"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"authorized"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"currency_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"authorizing"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"currency_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"brand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"debited"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"currency_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"processor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"recredited"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"currency_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="s2">"agency_code_partner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"fees"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"fee"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"currency_amount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"currency_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"exchange_rate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"payment_items_details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"item"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"item_date"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-04T06:50:05.520Z"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-04T06:50:05.520Z"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"currency_amount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"currency_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"other_amount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GiftCard"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"currency_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"image_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"payment_transaction"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"id_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Expirable"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"expiry_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-04T06:50:05.521Z"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"other_amount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GiftCard"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"currency_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"refunded_currency_amount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"currency_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"redirect"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"protocol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"form_inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"form_input"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"gateway_information"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"platform_user"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"platform_merchant_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"platform_mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"cost"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"settlement_day"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"multibanco_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Success"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"card_data_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Success"</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves all kittens.</p>
-<h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
-<h3 id='query-parameters'>Query Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
-</tr>
-<tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
-</tr>
-</tbody></table>
-
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be filled if a fraud analysis must be done, as <i>payment_process</i> must be filled if a payment must too.
 </aside>
-<h2 id='get-a-specific-kitten'>Get a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+<ul>
+<li>Valid values are:</li>
+<li>Explicit</li>
+<li>Encrypted</li>
+<li>Tokenized.</li>
+</ul>
+<h3 id='card-data'>Card Data:</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="err">encrypted_data</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">store_card_info</span><span class="w"> </span><span class="err">(bool</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">tokenized_data</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">number</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">expiration_month</span><span class="w"> </span><span class="err">(integer</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">expiration_year</span><span class="w"> </span><span class="err">(integer</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">security_code</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves a specific kitten.</p>
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-<h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters'>URL Parameters</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Node</th>
+<th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
+<td>store_card_info</td>
+<td>String</td>
+<td>Indicates whether or not should the information be stored and tokenized for future uses by the <em>SWAPPT Vault</em> service.</td>
+</tr>
+<tr>
+<td>encrypted_data</td>
+<td>Boolean</td>
+<td>Card data information encrypted by the <em>SWAPPT CSE JavaScript</em>. Mandatory if <em>card_type</em> is <em>Encrypted</em>.</td>
+</tr>
+<tr>
+<td>tokenized_data</td>
+<td>String</td>
+<td>Token pointing the data previously stored on <em>SWAPPT Vault</em>. Mandatory if <em>card_type</em> is <em>Tokenized</em>.</td>
+</tr>
+<tr>
+<td>number</td>
+<td>String</td>
+<td>Card number. Mandatory if <em>card_type</em> is <em>Explicit</em>.</td>
+</tr>
+<tr>
+<td>expiration_month</td>
+<td>Integer</td>
+<td>Card expiration month. Mandatory if <em>card_type</em> is <em>Explicit</em>.</td>
+</tr>
+<tr>
+<td>expiration_year</td>
+<td>Integer</td>
+<td>Card expiration year. Mandatory if <em>card_type</em> is <em>Explicit</em>.</td>
+</tr>
+<tr>
+<td>security_code</td>
+<td>String</td>
+<td>Card security code. Mandatory if <em>card_type</em> is <em>Explicit</em>.</td>
 </tr>
 </tbody></table>
-<h2 id='delete-a-specific-kitten'>Delete a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -X DELETE
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
+<h3 id='senderdetails'>SenderDetails:</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="err">holder</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">id</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">name</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">surname</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">email</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">phone_number</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">ssn</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">address</span><span class="w"> </span><span class="err">(Address</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">billing_address</span><span class="w"> </span><span class="err">(Address</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">sender_bank_details</span><span class="w"> </span><span class="err">(BankDetails</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">recipient_bank_details</span><span class="w"> </span><span class="err">(BankDetails</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves a specific kitten.</p>
-<h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Node</th>
+<th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to delete</td>
+<td>holder</td>
+<td>String</td>
+<td>Holder name and surname</td>
+</tr>
+<tr>
+<td>id</td>
+<td>String</td>
+<td></td>
+</tr>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>Sender name</td>
+</tr>
+<tr>
+<td>surname</td>
+<td>String</td>
+<td>Sender surname</td>
+</tr>
+<tr>
+<td>email</td>
+<td>String</td>
+<td>Sender email</td>
+</tr>
+<tr>
+<td>phone_number</td>
+<td>String</td>
+<td>Sender phone number</td>
+</tr>
+<tr>
+<td>ssn</td>
+<td>String</td>
+<td>Social Security Number</td>
+</tr>
+<tr>
+<td>address</td>
+<td>Address</td>
+<td>Sender address (see &quot;<em>Address</em>&quot; structure in 1.2.3.1)</td>
+</tr>
+<tr>
+<td>billing_address</td>
+<td>Address</td>
+<td>Billing address (see &quot;<em>Address</em>&quot; structure in 1.2.3.1)</td>
+</tr>
+<tr>
+<td>sender_bank_details</td>
+<td>BankDetails Sender bank details(see &quot;<em>BankDetails</em>&quot; structure in 1.2.3.2)</td>
+<td></td>
+</tr>
+<tr>
+<td>recipient_bank_details</td>
+<td>BankDetails</td>
+<td>Recipent bank details (see &quot;<em>BankDetails</em>&quot; structure in 1.2.3.2)</td>
+</tr>
+</tbody></table>
+<h4 id='address'>Address:</h4><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="err">country_code</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">city</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">address_line</span><span class="mi">1</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">address_line</span><span class="mi">2</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">zip_code</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Node</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>country_code</td>
+<td>String</td>
+<td>ISO3 country code</td>
+</tr>
+<tr>
+<td>city</td>
+<td>String</td>
+<td>City name</td>
+</tr>
+<tr>
+<td>address_line1</td>
+<td>String</td>
+<td>Address line 1 (main)</td>
+</tr>
+<tr>
+<td>address_line2</td>
+<td>String</td>
+<td>Address line 2 (additional information)</td>
+</tr>
+<tr>
+<td>zip_code</td>
+<td>String</td>
+<td>Adress zip code</td>
+</tr>
+</tbody></table>
+<h4 id='bankdetails'>BankDetails:</h4><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="err">bic</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">holder</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">bank_account</span><span class="w"> </span><span class="err">(BankAccount</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">bank_name</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">country_code</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">iban</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Node</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bic</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>holder</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bank_account</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bank_name</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>country_code</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>iban</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h5 id='bankaccount'>BankAccount:</h5><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="err">number</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">security_code</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Number and security code of the bank account.</p>
+<h3 id='fraudprocessrq'>FraudProcessRQ :</h3>
+<blockquote>
+<p>FraudProcessRQ</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="err">enabled</span><span class="w"> </span><span class="err">(optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">rules_module</span><span class="w"> </span><span class="err">(optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">default_result</span><span class="w"> </span><span class="err">(optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">device_fingerprint</span><span class="w"> </span><span class="err">(optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">ip_address</span><span class="w"> </span><span class="err">(optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">session_id</span><span class="w"> </span><span class="err">(optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">custom_data</span><span class="w"> </span><span class="err">(optional)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Node</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>enabled</td>
+<td>Boolean</td>
+<td>Indicates whether or not a fraud analysis must be done.</td>
+</tr>
+<tr>
+<td>rules_module</td>
+<td>Array[SkeeperRule]</td>
+<td>Array of Fraud rules to be applied (if no rules specified, it will be used the configured ones on the *SWAPPT FDS *website.</td>
+</tr>
+<tr>
+<td>default_result</td>
+<td>String</td>
+<td>The result that must be returned if no rule is triggered (mandatory if rules provided on the request). Values can be <em>&#39;Undefined&#39;</em>, <em>&#39;Accept&#39;</em>, <em>&#39;Reject&#39;</em> or <em>&#39;AcceptWithSecurePayment&#39;</em>.</td>
+</tr>
+<tr>
+<td>defice_fingerprint</td>
+<td>String</td>
+<td>Customer’s device ID.</td>
+</tr>
+<tr>
+<td>ip_address</td>
+<td>String</td>
+<td>Customer’s IP Address.</td>
+</tr>
+<tr>
+<td>session_id</td>
+<td>String</td>
+<td>Customer’s navigation session ID.</td>
+</tr>
+<tr>
+<td>custom_data</td>
+<td>Key-Value</td>
+<td>Additional data that Fraud should know. It is a Key-Value field, where Keys are <em>SWAPPT FDS</em>’s tool names and values are the configurations for that tools:</td>
+</tr>
+</tbody></table>
+
+<p>* <em>Protect</em>: Key-Value containing the Custom Fields of the transaction, where Key is the Custom Field name, and Value it’s value (Custom Fields must be previously configured con <em>SWAPPT Protect</em>’s website, more info Here).</p>
+
+<p>* <em>V5</em>: Comming soon</p>
+
+<p>* <em>Sift_science</em>: Comming soon</p>
+<h3 id='paymentprocessrq'>PaymentProcessRQ:</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="err">enabled</span><span class="w"> </span><span class="err">(boolean</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">tokenization</span><span class="w"> </span><span class="err">(Tokenization</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">reference_token</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">payment_details</span><span class="w"> </span><span class="err">(PaymentDetails</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">callback_url_fail</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">callback_url_success</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">client_config</span><span class="w"> </span><span class="err">(inline_model_</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">source</span><span class="w"> </span><span class="err">(Source</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">merchant_reference</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="p">,</span><span class="w">
+  </span><span class="err">payment_method</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="p">[</span><span class="err">'Undefined'</span><span class="p">,</span><span class="w"> </span><span class="err">'Visa'</span><span class="p">,</span><span class="w"> </span><span class="err">'Mastercard'</span><span class="p">,</span><span class="w"> </span><span class="err">'American_express'</span><span class="p">,</span><span class="w"> </span><span class="err">'JCB'</span><span class="p">,</span><span class="w"> </span><span class="err">'Union_pay'</span><span class="p">,</span><span class="w"> </span><span class="err">'Diners_club'</span><span class="p">,</span><span class="w"> </span><span class="err">'Hiper'</span><span class="p">,</span><span class="w"> </span><span class="err">'Discover'</span><span class="p">,</span><span class="w"> </span><span class="err">'Paysafecard'</span><span class="p">,</span><span class="w"> </span><span class="err">'Sofort'</span><span class="p">,</span><span class="w"> </span><span class="err">'Trustly'</span><span class="p">,</span><span class="w"> </span><span class="err">'Offline_transference'</span><span class="p">,</span><span class="w"> </span><span class="err">'Paga_mas_tarde'</span><span class="p">,</span><span class="w"> </span><span class="err">'Instant_credit'</span><span class="p">,</span><span class="w"> </span><span class="err">'Cetelem'</span><span class="p">,</span><span class="w"> </span><span class="err">'Klarna'</span><span class="p">,</span><span class="w"> </span><span class="err">'Paypal'</span><span class="p">,</span><span class="w"> </span><span class="err">'Masterpass'</span><span class="p">,</span><span class="w"> </span><span class="err">'Safety_pay'</span><span class="p">,</span><span class="w"> </span><span class="err">'IUPay'</span><span class="p">,</span><span class="w"> </span><span class="err">'Multibanco'</span><span class="p">,</span><span class="w"> </span><span class="err">'Braspag'</span><span class="p">,</span><span class="w"> </span><span class="err">'Limonetik'</span><span class="p">,</span><span class="w"> </span><span class="err">'Cash'</span><span class="p">],</span><span class="w">
+  </span><span class="err">gateway_code</span><span class="w"> </span><span class="err">(string</span><span class="p">,</span><span class="w"> </span><span class="err">optional)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h2 id='details'>Details</h2>
+<blockquote>
+<p>DetailsRQ</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="err">search_type</span><span class="w"> </span><span class="err">(string)</span><span class="p">,</span><span class="w">
+  </span><span class="err">transaction_id</span><span class="w"> </span><span class="err">(string)</span><span class="p">,</span><span class="w">
+  </span><span class="err">transaction_start_time</span><span class="w"> </span><span class="err">(string)</span><span class="p">,</span><span class="w">
+  </span><span class="err">transaction_end_time</span><span class="w"> </span><span class="err">(string)</span><span class="p">,</span><span class="w">
+  </span><span class="err">session_code</span><span class="w"> </span><span class="err">(string)</span><span class="p">,</span><span class="w">
+  </span><span class="err">client_config</span><span class="w"> </span><span class="err">(Key-Value)</span><span class="p">,</span><span class="w">
+  </span><span class="err">source</span><span class="w"> </span><span class="err">(Source)</span><span class="p">,</span><span class="w">
+  </span><span class="err">merchant_reference</span><span class="w"> </span><span class="err">(string)</span><span class="p">,</span><span class="w">
+  </span><span class="err">payment_method</span><span class="w"> </span><span class="err">(string)</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="p">[</span><span class="err">'Undefined'</span><span class="p">,</span><span class="w"> </span><span class="err">'Visa'</span><span class="p">,</span><span class="w"> </span><span class="err">'Mastercard'</span><span class="p">,</span><span class="w"> </span><span class="err">'American_express'</span><span class="p">,</span><span class="w"> </span><span class="err">'JCB'</span><span class="p">,</span><span class="w"> </span><span class="err">'Union_pay'</span><span class="p">,</span><span class="w"> </span><span class="err">'Diners_club'</span><span class="p">,</span><span class="w"> </span><span class="err">'Hiper'</span><span class="p">,</span><span class="w"> </span><span class="err">'Discover'</span><span class="p">,</span><span class="w"> </span><span class="err">'Paysafecard'</span><span class="p">,</span><span class="w"> </span><span class="err">'Sofort'</span><span class="p">,</span><span class="w"> </span><span class="err">'Trustly'</span><span class="p">,</span><span class="w"> </span><span class="err">'Offline_transference'</span><span class="p">,</span><span class="w"> </span><span class="err">'Paga_mas_tarde'</span><span class="p">,</span><span class="w"> </span><span class="err">'Instant_credit'</span><span class="p">,</span><span class="w"> </span><span class="err">'Cetelem'</span><span class="p">,</span><span class="w"> </span><span class="err">'Klarna'</span><span class="p">,</span><span class="w"> </span><span class="err">'Paypal'</span><span class="p">,</span><span class="w"> </span><span class="err">'Masterpass'</span><span class="p">,</span><span class="w"> </span><span class="err">'Safety_pay'</span><span class="p">,</span><span class="w"> </span><span class="err">'IUPay'</span><span class="p">,</span><span class="w"> </span><span class="err">'Multibanco'</span><span class="p">,</span><span class="w"> </span><span class="err">'Braspag'</span><span class="p">,</span><span class="w"> </span><span class="err">'Limonetik'</span><span class="p">,</span><span class="w"> </span><span class="err">'Cash'</span><span class="p">],</span><span class="w">
+  </span><span class="err">gateway_code</span><span class="w"> </span><span class="err">(string)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Node</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>search_type</td>
+<td>String</td>
+<td>This node specifies what type of search is this request based on. Possible values are <em>&#39;ByTransaction&#39; *and *&#39;ByDates&#39;</em>. The first one will launch a transaction search by its transaction id and the node <em>transaction_id *MUST be specified. For the second value, *transaction_start_time *and *transaction_end_time</em> nodes MUST be specified for them are the limits of the date search.</td>
+</tr>
+<tr>
+<td>session_code</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>client_config</td>
+<td>Key-Value</td>
+<td>The client configuration</td>
+</tr>
+<tr>
+<td>payment_method</td>
+<td>String</td>
+<td></td>
+</tr>
+<tr>
+<td>gateway_code</td>
+<td>String</td>
+<td>Indicates the code of the gateway where the payment details should be consulted.</td>
+</tr>
+</tbody></table>
+<h2 id='refund'>Refund</h2>
+<blockquote>
+<p>TODO</p>
+</blockquote>
+<h1 id='tokenization'>Tokenization</h1>
+<p>This is the core process of <em>SWAPPT*s *Vault</em> solution. As you may know, this process is used to tokenize credit cards and, of course, retrieve them. </p>
+<h2 id='tokenize'>Tokenize</h2>
+<p><em>SWAPPT Vault</em>’s tokenization is used to tokenize credit cards. The system will save that information, and will return a unique token. The structure of the body must match the following:</p>
+
+<blockquote>
+<p>TokenizeRS </p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"K7WMBFTB5VAQPJWVHBZLFQWCPAYQAQWWS5U4F4NS6MKN4LWDX74EVRZLUOQS6FQOQKXHIXTY2WXH2==="</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Success"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Node</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>number</td>
+<td>String</td>
+<td>Card number.</td>
+</tr>
+<tr>
+<td>expiration_month</td>
+<td>Integer</td>
+<td>Card expiration month.</td>
+</tr>
+<tr>
+<td>expiration_year</td>
+<td>Integer</td>
+<td>Card expiration year.</td>
+</tr>
+<tr>
+<td>security_code</td>
+<td>String</td>
+<td>Card security code.</td>
+</tr>
+</tbody></table>
+
+<p>Where status takes the values &#39;<em>Success&#39;</em> or &#39;<em>Error&#39;</em>. If <em>Success</em>, <em>token *contains the unique token, if *Error</em>, <em>error_details</em> contains information related to the error occurred (see *Appendix *for a deep description). Note that the token returned has 1 unique use. When used, the system will provide a new one (if desired), and will make the used one useless.</p>
+<h2 id='retrieve'>Retrieve</h2>
+<p>This call will return the information associated to a token. Moreover, if you wish the data to remain saved, you should set the <em>retain</em> field to <em>True</em>.</p>
+
+<blockquote>
+<p>RetrieveRS example:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"credit_card"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0000000000000000"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"expiration_month"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"expiration_year"</span><span class="p">:</span><span class="w"> </span><span class="mi">3000</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"security_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"000"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"POYSIGHFLRA7XO64XIFUFUEB3PHCABVZE63ATEWBV6VV6UTL6EJU34I2KOP4N4CB6QM2FJODUK4A4==="</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Success"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Node</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>token</td>
+<td>String</td>
+<td>Token with the information to retrieve.</td>
+</tr>
+<tr>
+<td>retain</td>
+<td>Boolean</td>
+<td>True if data must remain saved, False if don&#39;t (Default: False).</td>
+</tr>
+</tbody></table>
+
+<p>For an <em>Error status</em>, <em>error_details</em> will contain information related to the error occurred (see <em>Appendix</em> for a deep description).</p>
+
+<p>==== BASE ====
+GlobalError {</p>
+
+<aside class="warning">
+<i>token</i> field will only be returned if the field <i>retain</i> was sent, and its value was true. Other input will cause the data to be invalidated after returning it.
+</aside>
+<h1 id='appendix'>Appendix</h1><h2 id='errordetails'>ErrorDetails</h2>
+<p><code>
+{
+  error_type (string)
+  error_messages (Array[GlobalError])
+}
+</code></p>
+
+<blockquote>
+<p>Error example:</p>
+</blockquote>
+
+<p>An <em>ErrorDetails</em> field will contain 2 fields. <em>error_types</em> determines the <em>SWAPPT</em> Solution where the error was caused (<em>&#39;FDS</em>, <em>&#39;Switcher&#39;</em>, <em>&#39;Vault&#39;</em>), or <em>&#39;Technical&#39; *in case of internal error. On the *error_messages</em> field are gathered all the errors appeared during the execution. It has a simple structure:</p>
+
+<table><thead>
+<tr>
+<th>Node</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>code</td>
+<td>The error code (you can see the possible error codes on section 4.1)</td>
+</tr>
+<tr>
+<td>description</td>
+<td>Provides a textual description of the error cause.</td>
+</tr>
+<tr>
+<td>field</td>
+<td>Contains the field that is related to the error (for example in <em>400</em>’s errors), and</td>
+</tr>
+<tr>
+<td>process_moment</td>
+<td>Says when the error was produced (<em>BeforeCallProvider</em>, <em>WhileCallingProvider</em>, <em>AfterCallProvider</em>), which will help us to detect the error and will tell you if the provider call was done.</td>
 </tr>
 </tbody></table>
 <h1 id='errors'>Errors</h1>
-<aside class="notice">This error section is stored in a separate file in `includes/_errors.md`. Slate allows you to optionally separate out your docs into many files...just save them to the `includes` folder and add them to the top of your `index.md`'s frontmatter. Files are included in the order listed.</aside>
-
-<p>The Kittn API uses the following error codes:</p>
-
 <table><thead>
 <tr>
 <th>Error Code</th>
@@ -445,57 +1188,48 @@ Remember — a happy kitten is an authenticated kitten!
 </thead><tbody>
 <tr>
 <td>400</td>
-<td>Bad Request -- Your request sucks</td>
+<td>Bad Request -- YRequest does not match the specification.</td>
 </tr>
 <tr>
 <td>401</td>
-<td>Unauthorized -- Your API key is wrong</td>
+<td>Unauthorized -- Your API key is wrong.</td>
 </tr>
 <tr>
 <td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only</td>
+<td>Forbidden -- User is not authorized.</td>
 </tr>
 <tr>
 <td>404</td>
-<td>Not Found -- The specified kitten could not be found</td>
+<td>Not Found -- The resource could not be found.</td>
 </tr>
 <tr>
-<td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method</td>
+<td>408</td>
+<td>RequestTimeout -- Timeout (tipically on provider’s side).</td>
 </tr>
 <tr>
-<td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json</td>
+<td>409</td>
+<td>Conflict -- Conflict with the configuration (e.g. FDS returns SecurePayment and referencing a non secure gateway).</td>
 </tr>
 <tr>
 <td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&#39;m a teapot</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
+<td>Gone -- The resource has been removed from our servers.</td>
 </tr>
 <tr>
 <td>500</td>
 <td>Internal Server Error -- We had a problem with our server. Try again later.</td>
 </tr>
 <tr>
-<td>503</td>
-<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
+<td>1000</td>
+<td>Undefined -- Error could not be traced! ESO QUE ES???????????</td>
 </tr>
 </tbody></table>
 
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="python">python</a>
-                <a href="#" data-language-name="javascript">javascript</a>
+                <a href="#" data-language-name="curl">curl</a>
+                <a href="#" data-language-name="csharp">csharp</a>
+                <a href="#" data-language-name="go">go</a>
           </div>
       </div>
     </div>
