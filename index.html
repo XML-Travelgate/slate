@@ -266,7 +266,7 @@
             <a href="#appendix" class="toc-h1 toc-link" data-title="Appendix">Appendix</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#additional-data-type" class="toc-h2 toc-link" data-title="Appendix">Additional data type</a>
+                    <a href="#additional-data-types" class="toc-h2 toc-link" data-title="Appendix">Additional data types</a>
                   </li>
                   <li>
                     <a href="#errordetails" class="toc-h2 toc-link" data-title="Appendix">ErrorDetails</a>
@@ -296,6 +296,10 @@
 <li><strong>Payment:</strong> Runs a paymend and/or a fraud analysis.</li>
 <li><strong>Tokenization:</strong> Tokenization/retrieval of card data information.</li>
 </ul>
+
+<aside class="notice">
+You will finde some types described as <i>String(SomeTypeName)</i>. This means that the type is an Enumerated type (of type <i>SomeTypeName</i>) and it has a closed set of values. You can find the enumerated types explained on the <a href ="#additional-data-types"><i>corresponding appendix section</i></a>.
+</aside>
 <h2 id='endpoints'>Endpoints</h2>
 <p>The endpoints for each operation follow the same structure:</p>
 
@@ -341,16 +345,16 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 <p>To adjust to our customers&#39; needs, we offer several configurations to use the API:</p>
 
 <ul>
-<li>Use the API directly analyse the fraud of a transaction without making any payment.</li>
+<li>Use the API directly analyze the fraud of a transaction without making any payment.</li>
 <li>Use the API to make a payment without analysing the fraud.</li>
 <li>Use the API to combine both configurations.</li>
 </ul>
-<h3 id='to-perform-fraud-analysis-proceeds-as-follow'>To perform fraud analysis proceeds as follow:</h3>
-<p>Use the <a href ="#payment"><i>Payment</i></a> call by filling in the information during the request &#39;&#39;fraud_process&#39;&#39;. The application will then return an answer.</p>
-<h3 id='to-perform-a-payment-follow-the-steps-below'>To perform a payment, follow the steps below:</h3>
+<h3 id='to-perform-fraud-analysis'>To perform fraud analysis:</h3>
+<p>Use the <a href ="#payment"><i>Payment</i></a> call by filling in the &#39;&#39;fraud_process&#39;&#39; information during the request. The application will then return an answer.</p>
+<h3 id='to-perform-a-payment'>To perform a payment:</h3>
 <p>The first step is to retrieve all payment methods available. To do so, we will use the call <a href ="#availablepaymentmethods"><i>AvailablePaymentMethods</i></a>. This call will return the payment methods according to the configuration made on the platform. </p>
 
-<p>This list will be shown to the final customer for him to choose the payment method that suits him best. Once the customer selects a payment method, the <a href ="#payment"><i>Payment</i></a>i call will be launched. This call will carry out the fraud analysis only if specified. To make the call, we will need the information returned in the response of the call AvailablePaymentMethods.</p>
+<p>This list will be shown to the final customer for him to choose the payment method that suits him best. Once the customer selects a payment method, the <a href ="#payment"><i>Payment</i></a> call will be launched. This call will carry out the fraud analysis only if specified. To make the call, we will need the information returned in the response of the call AvailablePaymentMethods.</p>
 
 <p>Depending on the method of payment selected it will be necessary to proceed in the following ways:</p>
 
@@ -360,7 +364,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 <li><p><strong>When the payment method is not carried out in any of these ways:</strong> It will be held internally from the call Payment, and you will only need to check the status of the transaction.</p></li>
 </ul>
 <h1 id='payment'>Payment</h1><h2 id='availablepaymentmethods'>AvailablePaymentMethods</h2>
-<p>The <em>available_payment_methods*is the first call that needs to be executed. With this call, you will get the list of payment methods available for the transaction and the configuration specified. **Note:</em>* This step is mandatory for payments but not required for fraud analysis.</p>
+<p>The <em>available_payment_methods</em> is the first call that needs to be executed. With this call, you will get the list of payment methods available for the transaction and the configuration specified. <strong>Note:</strong> This step is mandatory for payments but not required for fraud analysis.</p>
 <h3 id='availablepaymentmethodsrq'>AvailablePaymentMethodsRQ</h3>
 <blockquote>
 <p>AvailablePaymentMethodsRQ example:</p>
@@ -393,13 +397,18 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </tr>
 <tr>
 <td>departure</td>
-<td>String</td>
-<td></td>
+<td>DateTime</td>
+<td>Departure Date (UTC).</td>
 </tr>
 <tr>
 <td>cancellation_expenses_beginning</td>
-<td>String</td>
+<td>DateTime</td>
+<td>When the purchase will have cancellation expenses.</td>
+</tr>
+<tr>
 <td>excluded_methods</td>
+<td>Array[String(PaymentMethodType)]</td>
+<td>List of payment methods to ignore.</td>
 </tr>
 <tr>
 <td>fraud_information</td>
@@ -414,7 +423,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 <tr>
 <td>session_code</td>
 <td>String</td>
-<td></td>
+<td>Identifies the transactions of the same session.</td>
 </tr>
 <tr>
 <td>client_config</td>
@@ -467,22 +476,22 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 <tr>
 <td>departure_datetime_utc</td>
 <td>String</td>
-<td></td>
+<td>Departure or start of first service in Utc format.</td>
 </tr>
 <tr>
 <td>customer_has_trusted_bookings</td>
 <td>Boolean</td>
-<td></td>
+<td>User has trusted booking in last dates.</td>
 </tr>
 <tr>
 <td>customer_is_fraud_suspicious</td>
 <td>Boolean</td>
-<td></td>
+<td>User is suspicious.</td>
 </tr>
 <tr>
 <td>product_predisposed_to_be_fraud</td>
 <td>Boolean</td>
-<td></td>
+<td>Set it to true on products that often are fraud.</td>
 </tr>
 </tbody></table>
 <h3 id='availablepaymentmethodsrs'>AvailablePaymentMethodsRS</h3>
@@ -509,8 +518,8 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </tr>
 <tr>
 <td>status</td>
-<td>String</td>
-<td>Identifies if any processing error has occurred. Possible values [ &#39;Success&#39;, &#39;Error&#39;]</td>
+<td>String(EndTransactionType)</td>
+<td>Identifies if any processing error has occurred.</td>
 </tr>
 </tbody></table>
 <h3 id='availablepaymentmethod'>AvailablePaymentMethod</h3>
@@ -540,8 +549,8 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </thead><tbody>
 <tr>
 <td>type</td>
-<td>String</td>
-<td>Possible values [&#39;Undefined&#39;, &#39;Visa&#39;, &#39;Mastercard&#39;, &#39;American_express&#39;, &#39;JCB&#39;, &#39;Union_pay&#39;, &#39;Diners_club&#39;, &#39;Hiper&#39;, &#39;Discover&#39;, &#39;Paysafecard&#39;, &#39;Sofort&#39;, &#39;Trustly&#39;, &#39;Offline_transference&#39;, &#39;Paga_mas_tarde&#39;, &#39;Instant_credit&#39;, &#39;Cetelem&#39;, &#39;Klarna&#39;, &#39;Paypal&#39;, &#39;Masterpass&#39;, &#39;Safety_pay&#39;, &#39;IUPay&#39;, &#39;Multibanco&#39;, &#39;Braspag&#39;, &#39;Limonetik&#39;, &#39;Cash&#39;]</td>
+<td>String(PaymentMethodType)</td>
+<td>Payment method name.</td>
 </tr>
 <tr>
 <td>reference_token</td>
@@ -581,12 +590,12 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 <tr>
 <td>paypal_token</td>
 <td>Boolean</td>
-<td>TODO?</td>
+<td>PayPal token if method type is PayPal.</td>
 </tr>
 <tr>
 <td>offline_transference_list</td>
 <td>Array[<a href ="#offlinetransference"><i>OfflineTransference</i></a>]</td>
-<td>TODO?</td>
+<td>The list of the offline transference payment types avaliable.</td>
 </tr>
 </tbody></table>
 <h3 id='offlinetransference'>OfflineTransference</h3>
@@ -612,32 +621,32 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 <tr>
 <td>bank_id</td>
 <td>String</td>
-<td></td>
+<td>Bank identifier.</td>
 </tr>
 <tr>
 <td>bank_description</td>
 <td>String</td>
-<td></td>
+<td>Bank description.</td>
 </tr>
 <tr>
 <td>bank_name</td>
 <td>String</td>
-<td></td>
+<td>Bank name.</td>
 </tr>
 <tr>
 <td>beneficiary</td>
 <td>String</td>
-<td></td>
+<td>Beneficiary.</td>
 </tr>
 <tr>
 <td>iban</td>
 <td>String</td>
-<td></td>
+<td>IBAN.</td>
 </tr>
 <tr>
 <td>swift</td>
 <td>String</td>
-<td></td>
+<td>SWIFT.</td>
 </tr>
 </tbody></table>
 <h2 id='process'>Process</h2>
@@ -657,7 +666,6 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
     </span><span class="s2">"card_type"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Explicit"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"currency_amount"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
     </span><span class="s2">"sender_details"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"session_code"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"fraud_process"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
     </span><span class="s2">"payment_process"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -676,8 +684,8 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 </tr>
 <tr>
 <td>card_type</td>
-<td>String</td>
-<td>Used to determine the mandatory format of &#39;card_data&#39; field. Posible values [&#39;Explicit&#39;,&#39;Encrypted&#39;,&#39;Tokenized&#39;]</td>
+<td>String(CardInfoType)</td>
+<td>Used to determine the mandatory format of &#39;card_data&#39; field.</td>
 </tr>
 <tr>
 <td>currency_amount</td>
@@ -724,7 +732,7 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>encrypted_data</td>
 <td>Boolean</td>
-<td>Card data information encrypted by the <em>SWAPPT CSE JavaScript</em>. Mandatory if <em>card_type</em> is <em>Encrypted</em>.</td>
+<td>Card data information encrypted by the <em>SWAPPT CSE JavaScript</em>. <strong>Mandatory if <em>card_type</em> is <em>Encrypted</em>.</strong></td>
 </tr>
 <tr>
 <td>store_card_info</td>
@@ -734,27 +742,27 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>tokenized_data</td>
 <td>String</td>
-<td>Token pointing the data previously stored on <em>SWAPPT Vault</em>. Mandatory if <em>card_type</em> is <em>Tokenized</em>.</td>
+<td>Token pointing the data previously stored on <em>SWAPPT Vault</em>. <strong>Mandatory if <em>card_type</em> is <em>Tokenized</em>.</strong></td>
 </tr>
 <tr>
 <td>number</td>
 <td>String</td>
-<td>Card number. Mandatory if <em>card_type</em> is <em>Explicit</em>.</td>
+<td>Card number. <strong>Mandatory if <em>card_type</em> is <em>Explicit</em>.</strong></td>
 </tr>
 <tr>
 <td>expiration_month</td>
 <td>Integer</td>
-<td>Card expiration month. Mandatory if <em>card_type</em> is <em>Explicit</em>.</td>
+<td>Card expiration month. <strong>Mandatory if <em>card_type</em> is <em>Explicit</em>.</strong></td>
 </tr>
 <tr>
 <td>expiration_year</td>
 <td>Integer</td>
-<td>Card expiration year. Mandatory if <em>card_type</em> is <em>Explicit</em>.</td>
+<td>Card expiration year. <strong>Mandatory if <em>card_type</em> is <em>Explicit</em>.</strong></td>
 </tr>
 <tr>
 <td>security_code</td>
 <td>String</td>
-<td>Card security code. Mandatory if <em>card_type</em> is <em>Explicit</em>.</td>
+<td>Card security code. <strong>Mandatory if <em>card_type</em> is <em>Explicit</em>.</strong></td>
 </tr>
 </tbody></table>
 <h3 id='senderdetails'>SenderDetails:</h3>
@@ -786,37 +794,37 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>holder</td>
 <td>String</td>
-<td>Holder name and surname</td>
+<td>Holder name and surname.</td>
 </tr>
 <tr>
 <td>id</td>
 <td>String</td>
-<td></td>
+<td>Transaction&#39;s sender id.</td>
 </tr>
 <tr>
 <td>name</td>
 <td>String</td>
-<td>Sender name</td>
+<td>Sender name.</td>
 </tr>
 <tr>
 <td>surname</td>
 <td>String</td>
-<td>Sender surname</td>
+<td>Sender surname.</td>
 </tr>
 <tr>
 <td>email</td>
 <td>String</td>
-<td>Sender email</td>
+<td>Sender email.</td>
 </tr>
 <tr>
 <td>phone_number</td>
 <td>String</td>
-<td>Sender phone number</td>
+<td>Sender phone number.</td>
 </tr>
 <tr>
 <td>ssn</td>
 <td>String</td>
-<td>Social Security Number</td>
+<td>Social Security Number.</td>
 </tr>
 <tr>
 <td>address</td>
@@ -861,27 +869,27 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>country_code</td>
 <td>String</td>
-<td>ISO3 country code</td>
+<td>Country code in ISO3 (ISO 4217) format.</td>
 </tr>
 <tr>
 <td>city</td>
 <td>String</td>
-<td>City name</td>
+<td>City name.</td>
 </tr>
 <tr>
 <td>address_line1</td>
 <td>String</td>
-<td>Address line 1 (main)</td>
+<td>Address line 1 (main).</td>
 </tr>
 <tr>
 <td>address_line2</td>
 <td>String</td>
-<td>Address line 2 (additional information)</td>
+<td>Address line 2 (additional information).</td>
 </tr>
 <tr>
 <td>zip_code</td>
 <td>String</td>
-<td>Adress zip code</td>
+<td>Adress zip code.</td>
 </tr>
 </tbody></table>
 <h3 id='bankdetails'>BankDetails:</h3>
@@ -906,33 +914,33 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 </thead><tbody>
 <tr>
 <td>bic</td>
-<td></td>
-<td></td>
+<td>String</td>
+<td>BIC.</td>
 </tr>
 <tr>
 <td>holder</td>
-<td></td>
-<td></td>
+<td>String</td>
+<td>Bank holder.</td>
 </tr>
 <tr>
 <td>bank_account</td>
 <td><a href ="#bankaccount"><i>BankAccount</i></a></td>
-<td></td>
+<td>Bank account data.</td>
 </tr>
 <tr>
 <td>bank_name</td>
-<td></td>
-<td></td>
+<td>String</td>
+<td>Bank name.</td>
 </tr>
 <tr>
 <td>country_code</td>
-<td></td>
-<td></td>
+<td>String</td>
+<td>Bank country code in ISO3 (ISO 4217) format.</td>
 </tr>
 <tr>
 <td>iban</td>
-<td></td>
-<td></td>
+<td>String</td>
+<td>IBAN.</td>
 </tr>
 </tbody></table>
 <h3 id='bankaccount'>BankAccount:</h3>
@@ -992,10 +1000,10 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>default_result</td>
 <td>String</td>
-<td>The result that must be returned if no rule is triggered (mandatory if rules provided on the request). Values can be <em>&#39;Undefined&#39;</em>, <em>&#39;Accept&#39;</em>, <em>&#39;Reject&#39;</em> or <em>&#39;AcceptWithSecurePayment&#39;</em>.</td>
+<td>The result that must be returned if no rule is triggered (mandatory if rules provided on the request). Values can be <code>Undefined</code>, <code>Accept</code>, <code>Reject</code> or <code>AcceptWithSecurePayment</code>.</td>
 </tr>
 <tr>
-<td>defice_fingerprint</td>
+<td>device_fingerprint</td>
 <td>String</td>
 <td>Customer’s device ID.</td>
 </tr>
@@ -1016,11 +1024,9 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 </tr>
 </tbody></table>
 
-<p>* <em>Protect</em>: Key-Value containing the Custom Fields of the transaction, where Key is the Custom Field name, and Value it’s value (Custom Fields must be previously configured con <em>SWAPPT Protect</em>’s website, more info Here).</p>
-
-<p>* <em>V5</em>: Comming soon</p>
-
-<p>* <em>Sift_science</em>: Comming soon</p>
+<p>* <em>Protect</em>: Key-Value containing the Custom Fields of the transaction, where Key is the Custom Field name, and Value it’s value (Custom Fields must be previously configured con <em>SWAPPT Protect</em>’s website, more info Here).
+    * <em>V5</em>: Comming soon
+    * <em>Sift_science</em>: Comming soon</p>
 <h3 id='skeeperrule'>SkeeperRule:</h3>
 <blockquote>
 <p>SkeeperRule Example: </p>
@@ -1042,18 +1048,18 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 </thead><tbody>
 <tr>
 <td>modules</td>
-<td>ToolCode-<a href ="#module"><i>Module</i></a></td>
-<td></td>
+<td>Key-Value</td>
+<td>The combination of results that the tools should return. Key: String(ToolCode) Value: <a href ="#module"><i>Module</i></a></td>
 </tr>
 <tr>
 <td>global_decision</td>
 <td>String</td>
-<td>Undefined&#39;, &#39;Accept&#39;, &#39;Reject&#39;, &#39;AcceptWithSecurePayment&#39;</td>
+<td>The result that <em>FDS</em> must return if this rule triggers.</td>
 </tr>
 <tr>
 <td>priority</td>
-<td>Numeric</td>
-<td></td>
+<td>Integer</td>
+<td>The priority of this rule (the more greater value the more priority)</td>
 </tr>
 </tbody></table>
 <h3 id='module'>Module:</h3>
@@ -1076,23 +1082,23 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 </thead><tbody>
 <tr>
 <td>module_type</td>
-<td>ModuleKey-Module</td>
-<td>Undefined , Protect , V5 , Sift_science</td>
+<td>String(ModuleType)</td>
+<td>Tells if the rule is based in a decision or in a score.</td>
 </tr>
 <tr>
 <td>decision_type</td>
-<td>String</td>
-<td>ByScoring, ByDecision</td>
+<td>String(ModuleDecision)</td>
+<td>The tool&#39;s resulting decision.</td>
 </tr>
 <tr>
 <td>min_scoring</td>
-<td>Numeric</td>
-<td></td>
+<td>Integer</td>
+<td>Lower score value range.</td>
 </tr>
 <tr>
 <td>max_scoring</td>
-<td>Numeric</td>
-<td></td>
+<td>Integer</td>
+<td>Higher score value range.</td>
 </tr>
 </tbody></table>
 <h3 id='paymentprocessrq'>PaymentProcessRQ:</h3>
@@ -1123,47 +1129,47 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>reference_token</td>
 <td>String</td>
-<td></td>
+<td><em>AvailablePaymentMethods</em> response token.</td>
 </tr>
 <tr>
 <td>payment_details</td>
 <td><a href ="#paymentdetails"><i>PaymentDetails</i></a></td>
-<td></td>
+<td>Information about the payment.</td>
 </tr>
 <tr>
 <td>callback_url_fail</td>
 <td>String</td>
-<td></td>
+<td>Url to return after a failed gateway process.</td>
 </tr>
 <tr>
 <td>callback_url_success</td>
 <td>String</td>
-<td></td>
+<td>Url to return after a success gateway process.</td>
 </tr>
 <tr>
 <td>client_config</td>
 <td>String</td>
-<td></td>
+<td>Dynamic configuration data.</td>
 </tr>
 <tr>
 <td>source</td>
 <td><a href ="#source"><i>Source</i></a></td>
-<td></td>
+<td>Transaction&#39;s agency origin.</td>
 </tr>
 <tr>
 <td>merchant_reference</td>
 <td>String</td>
-<td></td>
+<td>Merchant&#39;s transaction reference.</td>
 </tr>
 <tr>
 <td>payment_method</td>
-<td>String</td>
-<td></td>
+<td>String(PaymentMethodType)</td>
+<td>Payment method.</td>
 </tr>
 <tr>
 <td>gateway_code</td>
 <td>String</td>
-<td></td>
+<td>Gateway identifier code.</td>
 </tr>
 </tbody></table>
 <h3 id='paymentdetails'>PaymentDetails:</h3>
@@ -1190,43 +1196,43 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 </thead><tbody>
 <tr>
 <td>amount</td>
-<td>Numeric</td>
-<td></td>
+<td>Integer</td>
+<td>Payment amount.</td>
 </tr>
 <tr>
 <td>currency</td>
 <td>String</td>
-<td></td>
+<td>Payment amount currency.</td>
 </tr>
 <tr>
 <td>reasons</td>
 <td>Array[<a href ="#reason"><i>Reason</i></a>]</td>
-<td></td>
+<td>Payment breakdown in reasons format (mandatory).</td>
 </tr>
 <tr>
 <td>payment_items_details</td>
 <td><a href ="#paymentitemdetails"><i>PaymentItemDetails</i></a></td>
-<td></td>
+<td>Payment breakdown in items (mandatory).</td>
 </tr>
 <tr>
 <td>booking_reference</td>
 <td>String</td>
-<td></td>
+<td>Merchant locator reference.</td>
 </tr>
 <tr>
 <td>num_installments</td>
 <td>String</td>
-<td></td>
+<td>Number of installments.</td>
 </tr>
 <tr>
 <td>agency_code_partner</td>
 <td>String</td>
-<td></td>
+<td>Partner agency code.</td>
 </tr>
 <tr>
 <td>language_code</td>
 <td>String</td>
-<td></td>
+<td>Language code.</td>
 </tr>
 </tbody></table>
 <h3 id='reason'>Reason:</h3>
@@ -1247,13 +1253,13 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 </thead><tbody>
 <tr>
 <td>id</td>
-<td>Numeric</td>
-<td></td>
+<td>Integer</td>
+<td>Reason id</td>
 </tr>
 <tr>
 <td>content</td>
 <td>String</td>
-<td></td>
+<td>Reason explanation.</td>
 </tr>
 </tbody></table>
 <h3 id='paymentitemdetail'>PaymentItemDetail:</h3>
@@ -1288,47 +1294,47 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>name</td>
 <td>String</td>
-<td></td>
+<td>Item name.</td>
 </tr>
 <tr>
 <td>description</td>
 <td>String</td>
-<td></td>
+<td>Item description.</td>
 </tr>
 <tr>
 <td>date_start</td>
 <td>String</td>
-<td></td>
+<td>Item&#39;s start date.</td>
 </tr>
 <tr>
 <td>date_finish</td>
 <td>String</td>
-<td></td>
+<td>Item&#39;s finish date.</td>
 </tr>
 <tr>
 <td>quantity</td>
 <td>String</td>
-<td></td>
+<td>Item quantity.</td>
 </tr>
 <tr>
 <td>currency</td>
 <td>String</td>
-<td></td>
+<td>Amount currency.</td>
 </tr>
 <tr>
 <td>amount</td>
 <td>String</td>
-<td></td>
+<td>Amount cquantity.</td>
 </tr>
 <tr>
 <td>image_url</td>
 <td>String</td>
-<td></td>
+<td>Item image url.</td>
 </tr>
 <tr>
 <td>provider</td>
 <td>String</td>
-<td></td>
+<td>Item&#39;s provider.</td>
 </tr>
 </tbody></table>
 <h3 id='source'>Source:</h3>
@@ -1350,12 +1356,12 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>country_code</td>
 <td>String</td>
-<td></td>
+<td>Country code in ISO 3 (ISO 4217) format.</td>
 </tr>
 <tr>
 <td>agency_code</td>
 <td>String</td>
-<td></td>
+<td>Agency code.</td>
 </tr>
 </tbody></table>
 <h3 id='processrs'>ProcessRS</h3>
@@ -1379,22 +1385,22 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>fraud_response</td>
 <td><a href ="#fraudprocessrs"><i>FraudProcessRS</i></a></td>
-<td></td>
+<td>FDS result information.</td>
 </tr>
 <tr>
 <td>payment_response</td>
 <td><a href ="#paymentprocessrs"><i>PaymentProcessRS</i></a></td>
-<td></td>
+<td>Switcher response.</td>
 </tr>
 <tr>
 <td>card_data_token</td>
 <td>String</td>
-<td></td>
+<td>Card token (for future uses).</td>
 </tr>
 <tr>
 <td>status</td>
-<td>String</td>
-<td></td>
+<td>String(EndTransactionType)</td>
+<td>Response status.</td>
 </tr>
 </tbody></table>
 <h3 id='fraudprocessrs'>FraudProcessRS</h3>
@@ -1414,8 +1420,8 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 </thead><tbody>
 <tr>
 <td>result</td>
-<td>String</td>
-<td>[&#39;Undefined&#39;, &#39;Accept&#39;, &#39;Reject&#39;, &#39;AcceptWithSecurePayment&#39;],</td>
+<td>String(GlobalDecision)</td>
+<td>FDS&#39;s final result.</td>
 </tr>
 </tbody></table>
 <h3 id='paymentprocessrs'>PaymentProcessRS</h3>
@@ -1437,12 +1443,12 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>transaction</td>
 <td><a href ="#paymenttransaction"><i>PaymentTransaction</i></a></td>
-<td></td>
+<td>Information about the transaction done.</td>
 </tr>
 <tr>
 <td>redirect</td>
 <td><a href ="#redirect"><i>Redirect</i></a></td>
-<td></td>
+<td>Redirect information.</td>
 </tr>
 </tbody></table>
 <h3 id='paymenttransaction'>PaymentTransaction</h3>
@@ -1471,47 +1477,47 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>id</td>
 <td>String</td>
-<td></td>
+<td>Transaction id.</td>
 </tr>
 <tr>
 <td>type</td>
-<td>String</td>
-<td></td>
+<td>String(TransactionType)</td>
+<td>Transaction type (Final/Expirable).</td>
 </tr>
 <tr>
 <td>expiration_datetime</td>
 <td>String</td>
-<td></td>
+<td>Transaction&#39;s expiration date.</td>
 </tr>
 <tr>
 <td>transaction_datetime</td>
 <td>String</td>
-<td></td>
+<td>When the transaction was done.</td>
 </tr>
 <tr>
 <td>currency_amount</td>
 <td><a href ="#currencyamount"><i>CurrencyAmount</i></a></td>
-<td></td>
+<td>Transaction&#39;s amount.</td>
 </tr>
 <tr>
 <td>status</td>
-<td>String</td>
-<td></td>
+<td>String(TransactionStatus)</td>
+<td>Transaction&#39;s status.</td>
 </tr>
 <tr>
 <td>status_description</td>
 <td>String</td>
-<td></td>
+<td>More info about the transaction&#39;s status.</td>
 </tr>
 <tr>
 <td>pending_reason</td>
-<td>String</td>
-<td></td>
+<td>String(PendingReason)</td>
+<td>Why the transaction is pending.</td>
 </tr>
 <tr>
 <td>payment_method</td>
-<td>String</td>
-<td></td>
+<td>String(PaymentMethodType)</td>
+<td>Transaction&#39;s payment method.</td>
 </tr>
 </tbody></table>
 <h3 id='redirect'>Redirect</h3>
@@ -1534,17 +1540,17 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>method</td>
 <td>String</td>
-<td></td>
+<td>Http method.</td>
 </tr>
 <tr>
 <td>protocol</td>
 <td>String</td>
-<td></td>
+<td>Network protocol.</td>
 </tr>
 <tr>
 <td>form_inputs</td>
 <td><a href ="#forminput"><i>FormInput</i></a></td>
-<td></td>
+<td>Inputs to add to the redirect call.</td>
 </tr>
 </tbody></table>
 <h3 id='forminput'>FormInput</h3>
@@ -1566,12 +1572,12 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>key</td>
 <td>String</td>
-<td></td>
+<td>Input key.</td>
 </tr>
 <tr>
 <td>value</td>
 <td>String</td>
-<td></td>
+<td>Input Value.</td>
 </tr>
 </tbody></table>
 <h2 id='payment-details'>Payment Details</h2><h3 id='paymentdetailsrq'>PaymentDetailsRQ</h3>
@@ -1599,37 +1605,37 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>search_type</td>
 <td>String</td>
-<td>This node specifies what type of search is this request based on. Possible values are <em>&#39;ByTransaction&#39; *and *&#39;ByDates&#39;</em>. The first one will launch a transaction search by its transaction id and the node <em>transaction_id *MUST be specified. For the second value, *transaction_start_time *and *transaction_end_time</em> nodes MUST be specified for them are the limits of the date search.</td>
+<td>Indicates the type of search that wants to be done.</td>
 </tr>
 <tr>
 <td>transaction_id</td>
 <td>String</td>
-<td></td>
+<td>Transaction id (only when &#39;<em>ByTransaction</em>&#39; searches)</td>
 </tr>
 <tr>
 <td>transaction_start_time</td>
 <td>String</td>
-<td></td>
+<td>Search start date (only when &#39;<em>ByDates</em>&#39; searches)</td>
 </tr>
 <tr>
 <td>transaction_end_time</td>
 <td>String</td>
-<td></td>
+<td>Search end date (only when &#39;<em>ByDates</em>&#39; searches)</td>
 </tr>
 <tr>
 <td>session_code</td>
 <td>string</td>
-<td></td>
+<td>Identifies the transactions of the same session.</td>
 </tr>
 <tr>
 <td>source</td>
 <td><a href ="#source"><i>Source</i></a></td>
-<td></td>
+<td>Transaction&#39;s agency origin.</td>
 </tr>
 <tr>
 <td>merchant_reference</td>
 <td>string</td>
-<td></td>
+<td>Merchant&#39;s transaction reference.</td>
 </tr>
 <tr>
 <td>gateway_code</td>
@@ -1656,18 +1662,18 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 </thead><tbody>
 <tr>
 <td>transactions</td>
-<td>Array[<a href ="#currencyamount"><i>CurrencyAmount</i></a>]</td>
-<td></td>
+<td>Array[<a href ="#detailstransaction"><i>DetailsTransaction</i></a>]</td>
+<td>Details of every transaction involving this payment.</td>
 </tr>
 <tr>
 <td>redirect</td>
 <td>String</td>
-<td></td>
+<td>Redirect information.</td>
 </tr>
 <tr>
 <td>status</td>
 <td>String</td>
-<td></td>
+<td>Response status.</td>
 </tr>
 </tbody></table>
 <h3 id='detailstransaction'>DetailsTransaction</h3>
@@ -1698,57 +1704,57 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>id</td>
 <td>String</td>
-<td></td>
+<td>Transaction id.</td>
 </tr>
 <tr>
 <td>type</td>
-<td>String</td>
-<td></td>
+<td>String(TransactionType)</td>
+<td>Transaction type (Final/Expirable).</td>
 </tr>
 <tr>
 <td>expiration_datetime</td>
 <td>String</td>
-<td></td>
+<td>Transaction&#39;s expiration date.</td>
 </tr>
 <tr>
 <td>transaction_datetime</td>
 <td>String</td>
-<td></td>
+<td>When the transaction was done.</td>
 </tr>
 <tr>
 <td>currency_amount</td>
 <td><a href ="#currencyamount"><i>CurrencyAmount</i></a></td>
-<td></td>
+<td>Transaction&#39;s amount.</td>
 </tr>
 <tr>
 <td>status</td>
 <td>String</td>
-<td></td>
+<td>String(TransactionStatus)</td>
 </tr>
 <tr>
 <td>status_description</td>
 <td>String</td>
-<td></td>
+<td>More info about the transaction&#39;s status.</td>
 </tr>
 <tr>
 <td>pending_reason</td>
-<td>String</td>
-<td></td>
+<td>String(PendingReason)</td>
+<td>Transaction&#39;s reason to be pending.</td>
 </tr>
 <tr>
 <td>payment_method</td>
-<td>String</td>
-<td></td>
+<td>String(PaymentMethodType)</td>
+<td>Transaction&#39;s payment method.</td>
 </tr>
 <tr>
 <td>refund_reasons</td>
 <td>Array[ <a href ="#reason"><i>Reason</i></a> Reason]</td>
-<td></td>
+<td>Refund reasons.</td>
 </tr>
 <tr>
 <td>refunded_currency_amount</td>
 <td><a href ="#currencyamount"><i>CurrencyAmount</i></a></td>
-<td></td>
+<td>If a refund was done, the amount that was refunded.</td>
 </tr>
 </tbody></table>
 <h2 id='refund-payment'>Refund Payment</h2><h3 id='paymentrefundrq'>PaymentRefundRQ</h3>
@@ -1777,42 +1783,42 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>transaction_id</td>
 <td>String</td>
-<td></td>
+<td>Transaction id.</td>
 </tr>
 <tr>
 <td>currency_amount</td>
 <td><a href ="#currencyamount"><i>CurrencyAmount</i></a></td>
-<td></td>
+<td>Amount to be refunded.</td>
 </tr>
 <tr>
 <td>sender_details</td>
 <td><a href ="#senderdetails"><i>SenderDetails</i></a></td>
-<td>Buyer&#39;s information</td>
+<td>Buyer&#39;s information.</td>
 </tr>
 <tr>
 <td>reasons</td>
-<td>Array[ <a href ="#reason"><i>Reason</i></a> Reason]</td>
-<td></td>
+<td>Array[<a href ="#reason"><i>Reason</i></a>]</td>
+<td>The reasons for the refund.</td>
 </tr>
 <tr>
 <td>agency_code_partner</td>
 <td>String</td>
-<td></td>
+<td>Partner agency code.</td>
 </tr>
 <tr>
 <td>session_code</td>
 <td>string</td>
-<td></td>
+<td>Identifies the transactions of the same session.</td>
 </tr>
 <tr>
 <td>source</td>
 <td><a href ="#source"><i>Source</i></a></td>
-<td></td>
+<td>Transaction&#39;s agency origin.</td>
 </tr>
 <tr>
 <td>merchant_reference</td>
 <td>string</td>
-<td></td>
+<td>Merchant&#39;s transaction reference.</td>
 </tr>
 <tr>
 <td>gateway_code</td>
@@ -1839,22 +1845,22 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 </thead><tbody>
 <tr>
 <td>transactions</td>
-<td>Array[<a href ="#currencyamount"><i>CurrencyAmount</i></a>]</td>
-<td></td>
+<td>Array[<a href ="#detailstransaction"><i>DetailsTransaction</i></a>]</td>
+<td>Information bout the transaction done.</td>
 </tr>
 <tr>
 <td>redirect</td>
 <td>String</td>
-<td></td>
+<td>Redirect information.</td>
 </tr>
 <tr>
 <td>status</td>
-<td>String</td>
-<td></td>
+<td>String(EndTransactionType)</td>
+<td>Response status.</td>
 </tr>
 </tbody></table>
 <h1 id='tokenization'>Tokenization</h1>
-<p><em>SWAPPT*s *Vault</em> solution core process. As you may know, this process is used to tokenize and retrieve credit cards. </p>
+<p><em>SWAPPT</em>&#39;s <em>Vault</em> solution core process. As you may know, this process is used to tokenize and retrieve credit cards. </p>
 <h2 id='tokenize'>Tokenize</h2>
 <p><em>SWAPPT Vault</em>’s tokenization is used to tokenize credit cards. The system will save that information, and will return a unique token. The structure of the body must match the following:</p>
 <h3 id='tokenizerq'>TokenizeRQ</h3>
@@ -1875,7 +1881,7 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>credit_card</td>
 <td><a href ="#creditcarddata"><i>CreditCardData</i></a></td>
-<td></td>
+<td>Credit card raw data.</td>
 </tr>
 </tbody></table>
 <h3 id='creditcarddata'>CreditCardData</h3>
@@ -1940,14 +1946,14 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 </tr>
 <tr>
 <td>status</td>
-<td>String</td>
-<td></td>
+<td>String(EndTransactionType)</td>
+<td>Response status.</td>
 </tr>
 </tbody></table>
 
-<p>Where status takes the values &#39;<em>Success&#39;</em> or &#39;<em>Error&#39;</em>. If <em>Success</em>, <em>token *contains the unique token, if *Error</em>, <em>error_details</em> contains information related to the error occurred (see *Appendix *for a deep description). Note that the token returned has 1 unique use. When used, the system will provide a new one (if desired), and will make the used one useless.</p>
+<p>Where status takes the values <code>Success</code> or <code>Error</code>. If <code>Success</code>, <code>token</code> contains the unique token, if <code>Error</code>, <code>error_details</code> contains information related to the error occurred (see *Appendix *for a deep description). Note that the token returned has 1 unique use. When used, the system will provide a new one (if desired), and will make the used one useless.</p>
 <h2 id='retrieve'>Retrieve</h2>
-<p>This call will return the information associated to a token. Moreover, if you wish the data to remain saved, you should set the <em>retain</em> field to <em>True</em>.</p>
+<p>This call will return the information associated to a token. Moreover, if you wish the data to remain saved, you should set the <em>retain</em> field to <code>true</code>.</p>
 <h3 id='retriverq'>RetriveRQ</h3>
 <blockquote>
 <p>RetriveRQ example:</p>
@@ -2005,24 +2011,269 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>status</td>
 <td>String</td>
-<td></td>
+<td>Response status.</td>
 </tr>
 </tbody></table>
-<h1 id='appendix'>Appendix</h1><h2 id='additional-data-type'>Additional data type</h2>
-<p>TODO: Aqui había pensado exponer los posibles valores de los diferentes enumerados. No se mu bein cómo especificar en as descripciones de los campos que se trata de un string-enumerado.</p>
+<h1 id='appendix'>Appendix</h1><h2 id='additional-data-types'>Additional data types</h2>
+<p>In this section you can find an extended explanation of the different enumerated types that the API has.</p>
+<h3 id='paymentmethodtype'>PaymentMethodType</h3>
+<table><thead>
+<tr>
+<th>Values</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Visa</td>
+<td>Hiper</td>
+<td>Discover</td>
+<td>Paysafecard</td>
+</tr>
+<tr>
+<td>Mastercard</td>
+<td>Sofort</td>
+<td>Trustly</td>
+<td>Offline_transference</td>
+</tr>
+<tr>
+<td>American_express</td>
+<td>Paga_mas_tarde</td>
+<td>Instant_credit</td>
+<td>Cetelem</td>
+</tr>
+<tr>
+<td>JCB</td>
+<td>Klarna</td>
+<td>Paypal</td>
+<td>Masterpass</td>
+</tr>
+<tr>
+<td>Union_pay</td>
+<td>Safety_pay</td>
+<td>IUPay</td>
+<td>Multibanco</td>
+</tr>
+<tr>
+<td>Diners_club</td>
+<td>Braspag</td>
+<td>Limonetik</td>
+<td>Cash</td>
+</tr>
+</tbody></table>
+<h3 id='endtransactiontype'>EndTransactionType</h3>
+<table><thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Success</td>
+<td>The request was processed sucessfully.</td>
+</tr>
+<tr>
+<td>Error</td>
+<td>There was an error during the process.</td>
+</tr>
+</tbody></table>
+<h3 id='cardinfotype'>CardInfoType</h3>
+<table><thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Explicit</td>
+<td>Card info comes raw.</td>
+</tr>
+<tr>
+<td>Encrypted</td>
+<td>Card info comes encrypted.</td>
+</tr>
+<tr>
+<td>Tokenized</td>
+<td>Card info comes tokenized.</td>
+</tr>
+</tbody></table>
+<h3 id='toolcode'>ToolCode</h3>
+<table><thead>
+<tr>
+<th>Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Protect</td>
+</tr>
+<tr>
+<td>V5</td>
+</tr>
+<tr>
+<td>SiftScience</td>
+</tr>
+</tbody></table>
+<h3 id='moduletype'>ModuleType</h3>
+<table><thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ByDecision</td>
+<td>Indicates that rule should be based on Decision.</td>
+</tr>
+<tr>
+<td>ByScore</td>
+<td>Indicates that rule should be based on Score.</td>
+</tr>
+</tbody></table>
+<h3 id='moduledecision'>ModuleDecision</h3>
+<table><thead>
+<tr>
+<th>Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Accept</td>
+</tr>
+<tr>
+<td>Review</td>
+</tr>
+<tr>
+<td>Reject</td>
+</tr>
+<tr>
+<td>NotConclusive</td>
+</tr>
+</tbody></table>
+<h3 id='globaldecision'>GlobalDecision</h3>
+<table><thead>
+<tr>
+<th>Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Accept</td>
+</tr>
+<tr>
+<td>Reject</td>
+</tr>
+<tr>
+<td>AcceptWithSecurePayment</td>
+</tr>
+</tbody></table>
+<h3 id='transactiontype'>TransactionType</h3>
+<table><thead>
+<tr>
+<th>Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Final</td>
+</tr>
+<tr>
+<td>Expirable</td>
+</tr>
+</tbody></table>
+<h3 id='transactionstatus'>TransactionStatus</h3>
+<table><thead>
+<tr>
+<th>Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Success</td>
+</tr>
+<tr>
+<td>Cancel</td>
+</tr>
+<tr>
+<td>Pending</td>
+</tr>
+<tr>
+<td>Received</td>
+</tr>
+<tr>
+<td>Refunded</td>
+</tr>
+</tbody></table>
+<h3 id='pendingreason'>PendingReason</h3>
+<table><thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>PendingCredit</td>
+<td>Pending of getting credit.</td>
+</tr>
+<tr>
+<td>PendingCapture</td>
+<td>Payment is pending of being captured.</td>
+</tr>
+<tr>
+<td>PendingVerification</td>
+<td>Payment is pending of being verificated for the gateway.</td>
+</tr>
+</tbody></table>
+<h3 id='searchtype'>SearchType</h3>
+<table><thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ByTransaction</td>
+<td>Search must be done by transaction_id (<em>transaction_id</em> node MUST be specified).</td>
+</tr>
+<tr>
+<td>ByDates</td>
+<td>Search must be done by date ranges (<em>transaction_start_time</em> and <em>transaction_end_time</em> nodes MUST be specified).</td>
+</tr>
+</tbody></table>
 <h2 id='errordetails'>ErrorDetails</h2>
-<p><code>
-{
-  error_type (string)
-  error_messages (Array[GlobalError])
-}
-</code></p>
-
 <blockquote>
 <p>Error example:</p>
 </blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"error_details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"error_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fraud"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"error_messages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"404"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Missing field"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ip_address"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Error"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Node</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>error_type</td>
+<td>String(SolutionCode)</td>
+<td>Determines the <em>SWAPPT</em> Solution where the error was caused (<em>&#39;FDS</em>, <em>&#39;Switcher&#39;</em>, <em>&#39;Vault&#39;</em>), or <em>&#39;Technical&#39;</em> in case of internal error.</td>
+</tr>
+<tr>
+<td>error_messages</td>
+<td>Array[GlobalError]</td>
+<td>List of error descriptions.</td>
+</tr>
+</tbody></table>
 
-<p>An <em>ErrorDetails</em> field will contain two fields. <em>error_types</em> determines the <em>SWAPPT</em> Solution where the error was caused (<em>&#39;FDS</em>, <em>&#39;Switcher&#39;</em>, <em>&#39;Vault&#39;</em>), or <em>&#39;Technical&#39;</em> in case of internal error. <em>error_messages</em> field gather all the errors appeared during the execution and it has a simple structure:</p>
+<p><em>GlobalError</em> contains a deeper description of the error, and follows a simple structure:</p>
 
 <table><thead>
 <tr>
@@ -2032,7 +2283,7 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 </thead><tbody>
 <tr>
 <td>code</td>
-<td>The error code (you can see the possible error codes on section 4.1)</td>
+<td>The error code (detailed on <a href ="#errors">error codes section</a>).</td>
 </tr>
 <tr>
 <td>description</td>
@@ -2040,7 +2291,7 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 </tr>
 <tr>
 <td>field</td>
-<td>Contains the field that is related to the error (for example in <em>400</em>’s errors), and</td>
+<td>Contains the field that is related to the error (for example in <em>400</em>’s errors).</td>
 </tr>
 <tr>
 <td>process_moment</td>
