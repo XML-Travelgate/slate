@@ -728,32 +728,32 @@ This step is mandatory for payments but not required for fraud analysis.
 </thead><tbody>
 <tr>
 <td>card_data</td>
-<td><a href ="#carddata"><code>CardData</code></a></td>
+<td><a href="#carddata"><code>CardData</code></a></td>
 <td>Card data information.</td>
 </tr>
 <tr>
 <td>card_type</td>
-<td>String(CardInfoType)</td>
-<td>Used to determine the mandatory format of <em>card_data</em> field.</td>
+<td>String(<code>CardInfoType</code>)</td>
+<td>Used to determine the mandatory format of <code>card_data</code> field.</td>
 </tr>
 <tr>
 <td>currency_amount</td>
-<td><a href ="#currencyamount"><code>CurrencyAmount</code></a></td>
+<td><a href="#currencyamount"><code>CurrencyAmount</code></a></td>
 <td>Currency of the payment</td>
 </tr>
 <tr>
 <td>sender_details</td>
-<td><a href ="#senderdetails"><code>SenderDetails</code></a></td>
+<td><a href="#senderdetails"><code>SenderDetails</code></a></td>
 <td>Buyer information</td>
 </tr>
 <tr>
 <td>fraud_process</td>
-<td><a href ="#fraudprocessrq"><code>FraudProcessRQ</code></a></td>
+<td><a href="#fraudprocessrq"><code>FraudProcessRQ</code></a></td>
 <td>Needed if you want to perform a fraud analysis.</td>
 </tr>
 <tr>
 <td>payment_process</td>
-<td><a href ="#paymentprocessrq"><code>PaymentProcessRQ</code></a></td>
+<td><a href="#paymentprocessrq"><code>PaymentProcessRQ</code></a></td>
 <td>Needed if you want to make a payment.</td>
 </tr>
 </tbody></table>
@@ -788,7 +788,7 @@ This step is mandatory for payments but not required for fraud analysis.
 <tr>
 <td>encrypted_data</td>
 <td>Boolean</td>
-<td>Card data information encrypted by the <em>SWAPPT CSE JavaScript</em>. <strong>Mandatory if <em>card_type</em> is <code>Encrypted</code>.</strong></td>
+<td>Card data information encrypted by the <em>SWAPPT CSE JavaScript</em>. <strong>Mandatory if <code>card_type</code> is <code>Encrypted</code>.</strong></td>
 </tr>
 <tr>
 <td>store_card_info</td>
@@ -798,27 +798,27 @@ This step is mandatory for payments but not required for fraud analysis.
 <tr>
 <td>tokenized_data</td>
 <td>String</td>
-<td>Token pointing the data previously stored on <em>SWAPPT Vault</em>. <strong>Mandatory if <em>card_type</em> is <code>Tokenized</code>.</strong></td>
+<td>Token pointing the data previously stored on <em>SWAPPT Vault</em>. <strong>Mandatory if <code>card_type</code> is <code>Tokenized</code>.</strong></td>
 </tr>
 <tr>
 <td>number</td>
 <td>String</td>
-<td>Card number. <strong>Mandatory if <em>card_type</em> is <code>Explicit</code>.</strong></td>
+<td>Card number. <strong>Mandatory if <code>card_type</code> is <code>Explicit</code>.</strong></td>
 </tr>
 <tr>
 <td>expiration_month</td>
 <td>Integer</td>
-<td>Card expiration month. <strong>Mandatory if <em>card_type</em> is <code>Explicit</code>.</strong></td>
+<td>Card expiration month. <strong>Mandatory if <code>card_type</code> is <code>Explicit</code>.</strong></td>
 </tr>
 <tr>
 <td>expiration_year</td>
 <td>Integer</td>
-<td>Card expiration year. <strong>Mandatory if <em>card_type</em> is <code>Explicit</code>.</strong></td>
+<td>Card expiration year. <strong>Mandatory if <code>card_type</code> is <code>Explicit</code>.</strong></td>
 </tr>
 <tr>
 <td>security_code</td>
 <td>String</td>
-<td>Card security code. <strong>Mandatory if <em>card_type</em> is <code>Explicit</code>.</strong></td>
+<td>Card security code. <strong>Mandatory if <code>card_type</code> is <code>Explicit</code>.</strong></td>
 </tr>
 </tbody></table>
 <h3 id='senderdetails'>SenderDetails:</h3>
@@ -2139,7 +2139,7 @@ The possible meta-data that can be stored with a credit card is `client_id`, `cl
 </tr>
 </tbody></table>
 
-<p>Where status takes the values <code>Success</code> or <code>Error</code>. If <code>Success</code>, <em>token</em> contains the unique token, if <code>Error</code>, <em>error_details</em> contains information related to the error occurred (see <a href ="#errordetails"><code>Appendix&#39;s section&lt;/a&gt;</code> for a deep description). Note that the token returned has 1 unique use. When used, the system will provide a new one (if desired), and will make the used one useless.</p>
+<p>Where status takes the values <code>Success</code> or <code>Error</code>. If <code>Success</code>, <em>token</em> contains the unique token, if <code>Error</code>, <em>error_details</em> contains information related to the error occurred (see <a href="#errordetails"><code>Appendix&#39;s section</code></a> for a deep description). Note that the token returned has 1 unique use. When used, the system will provide a new one (if desired), and will make the used one useless.</p>
 <h2 id='retrieve'>Retrieve</h2>
 <p>This method will return the information associated to a token. Moreover, if you wish the data to remain saved, you should set the <em>retain</em> field to <code>True</code>.</p>
 <h3 id='retriverq'>RetriveRQ</h3>
