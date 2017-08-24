@@ -201,7 +201,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;curl&quot;,&quot;csharp&quot;,&quot;go&quot;]">
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;csharp&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -211,9 +211,8 @@
     <div class="toc-wrapper">
       <img src="images/logo.png" class="logo" alt="Logo" />
         <div class="lang-selector">
-              <a href="#" data-language-name="curl">curl</a>
-              <a href="#" data-language-name="csharp">csharp</a>
-              <a href="#" data-language-name="go">go</a>
+              <a href="#" data-language-name="shell">cURL</a>
+              <a href="#" data-language-name="csharp">C#</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -298,7 +297,7 @@
 </ul>
 
 <aside class="notice">
-You will finde some types described as <i>String(SomeTypeName)</i>. This means that the type is an Enumerated type (of type <i>SomeTypeName</i>) and it has a closed set of values. You can find the enumerated types explained on the <a href ="#additional-data-types"><i>corresponding appendix section</i></a>.
+You will find some types described as <i>String(SomeTypeName)</i>. This means that the type is an Enumerated type (of type <i>SomeTypeName</i>) and it has a closed set of values. You can find the enumerated types explained on the <a href ="#additional-data-types"><i>corresponding appendix section</i></a>.
 </aside>
 <h2 id='endpoints'>Endpoints</h2>
 <p>The endpoints for each operation follow the same structure:</p>
@@ -335,12 +334,23 @@ Let&#39;s say that you belong to the organisation named &quot;test&quot; and you
 <aside class="notice">
 All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </aside>
-<h2 id='authentication'>Authentication</h2><pre class="highlight plaintext"><code>curl https://api.swappt.com/v1/organizations/test/payment
-     -H "Authorization: ApiKey YourApiKey"
+<h2 id='authentication'>Authentication</h2><pre class="highlight shell tab-shell"><code>curl https://api.swappt.com/v1/organizations/test/payment <span class="se">\</span>
+     -H <span class="s2">"Authorization: ApiKey YourApiKey"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-type: application/json"</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">content</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">StringContent</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="n">Text</span><span class="p">.</span><span class="n">Encoding</span><span class="p">.</span><span class="n">UTF8</span><span class="p">,</span> <span class="s">"application/json"</span><span class="p">))</span>
+<span class="p">{</span>
+  <span class="n">HttpRequestMessage</span> <span class="n">request</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">HttpRequestMessage</span><span class="p">(</span><span class="n">HttpMethod</span><span class="p">.</span><span class="n">Post</span><span class="p">,</span> <span class="s">"https://api.swappt.com/v1/organizations/test/payment"</span><span class="p">);</span>
+  <span class="n">request</span><span class="p">.</span><span class="n">Headers</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="s">"Authorization"</span><span class="p">,</span> <span class="s">"ApiKey YourApiKey"</span><span class="p">);</span>
+  <span class="n">request</span><span class="p">.</span><span class="n">Content</span> <span class="p">=</span> <span class="n">content</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre>
 <p>You need to authenticate when performing an API call. Moreover, the API will check your Authorization for every operation, o make sure that you have permissions to make every request.</p>
 
 <p>To authenticate, you need to place the word &#39;ApiKey&#39; followed by your API key on the <strong>Authorization</strong> header of your HTTP request.</p>
+
+<aside class="notice">
+<b>NOTE:</b> All the POST calls use JSON as input value. As so, the header "Content-type: application/json" is mandatory.
+</aside>
 <h2 id='api-flow'>API Flow</h2>
 <p>To adjust to our customers&#39; needs, we offer several configurations to use the API:</p>
 
@@ -369,20 +379,34 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 <blockquote>
 <p>AvailablePaymentMethodsRQ example:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"currency_amount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"departure"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-08T10:50"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cancellation_expenses_beginning"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-08T10:50"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"excluded_methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="w"> </span><span class="p">],</span><span class="w">
-    </span><span class="s2">"fraud_information"</span><span class="p">:</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"only_secure_payment"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"session_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"client_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"my_config_key_1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_value1"</span><span class="w">      
-    </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"merchant_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code>curl https://api.swappt.com/v1/organizations/test/available_payment_methods <span class="se">\</span>
+     -H <span class="s2">"Authorization: ApiKey YourApiKey"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-type: application/json"</span> <span class="se">\</span>
+     -d  <span class="s1">'{
+            "currency_amount": { ... },
+            "departure": "2017-08-08T10:50",
+            "cancellation_expenses_beginning": "2017-08-08T10:50",
+            "excluded_methods": [ "Undefined" ],
+            "fraud_information":  { ... },
+            "only_secure_payment": true,
+            "session_code": "string",
+            "client_config": {
+              "my_config_key_1": "my_value1"      
+            },
+            "merchant_reference": "string",
+        }'</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+    <span class="n">currencyAmount</span> <span class="p">=</span> <span class="k">new</span> <span class="n">CurrencyAmont</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span>
+    <span class="n">departure</span> <span class="p">=</span> <span class="s">"2017-08-08T10:50"</span><span class="p">,</span>
+    <span class="n">cancellationExpensesBeginning</span> <span class="p">=</span> <span class="s">"2017-08-08T10:50"</span><span class="p">,</span>
+    <span class="n">excludedMethods</span><span class="p">:</span> <span class="k">new</span> <span class="n">PaymentMethodType</span><span class="p">[]</span> <span class="p">{</span> <span class="n">Enums</span><span class="p">.</span><span class="n">PaymentMethodType</span><span class="p">.</span><span class="n">Visa</span><span class="p">,</span> <span class="n">Enums</span><span class="p">.</span><span class="n">PaymentMethodType</span><span class="p">.</span><span class="n">Paypal</span> <span class="p">},</span>
+    <span class="n">fraudInformation</span><span class="p">:</span>  <span class="k">new</span> <span class="n">FraudInformation</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span>
+    <span class="n">onlySecurePayment</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
+    <span class="n">sessionCode</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">clientConfig</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">string</span><span class="p">&gt;</span> <span class="p">{</span> <span class="p">{</span><span class="s">"my_config_key_1"</span><span class="p">,</span> <span class="s">"my_value1"</span><span class="p">}</span> <span class="p">},</span>
+    <span class="n">merchantReference</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -393,7 +417,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 <tr>
 <td>currency_amount</td>
 <td><a href ="#currencyamount"><i>CurrencyAmount</i></a></td>
-<td>Payment base amount where taxes will be applied. The CurrencyAmount specifies the amount and the currency used for this payment. The currency code must be specified in ISO3 (ISO 4217)) format</td>
+<td>Payment base amount where taxes will be applied. The CurrencyAmount specifies the amount and the currency used for this payment. The currency code must be specified in ISO3 (ISO 4217)) format.</td>
 </tr>
 <tr>
 <td>departure</td>
@@ -435,11 +459,15 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 <blockquote>
 <p>CurrencyAmount example:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"amount"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"currency_code"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+    <span class="s2">"amount"</span>: 8.95,
+    <span class="s2">"currency_code"</span>: <span class="s2">"EUR"</span>
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+    <span class="n">amount</span> <span class="p">=</span> <span class="m">8.95</span><span class="p">,</span>
+    <span class="n">currencyCode</span> <span class="p">=</span> <span class="s">"EUR"</span>
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -459,13 +487,20 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 <blockquote>
 <p>FraudInformation example:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"departure_datetime_utc"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-08T10:50"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"customer_has_trusted_bookings"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"customer_is_fraud_suspicious"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"product_predisposed_to_be_fraud"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+    <span class="s2">"departure_datetime_utc"</span> : <span class="s2">"2017-08-08T10:50"</span>,
+    <span class="s2">"customer_has_trusted_bookings"</span> : <span class="nb">true</span>,
+    <span class="s2">"customer_is_fraud_suspicious"</span> : <span class="nb">false</span>,
+    <span class="s2">"product_predisposed_to_be_fraud"</span> : <span class="nb">true</span>
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+    <span class="n">departureDatetimeUtc</span> <span class="p">=</span> <span class="s">"2017-08-08T10:50"</span><span class="p">,</span>
+    <span class="n">customerHasTrustedBookings</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
+    <span class="n">customerIsFraudSuspicious</span> <span class="p">=</span> <span class="k">false</span><span class="p">,</span>
+    <span class="n">productPredisposedToBeFraud</span> <span class="p">=</span> <span class="k">true</span>
+
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -476,7 +511,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 <tr>
 <td>departure_datetime_utc</td>
 <td>String</td>
-<td>Departure or start of first service in Utc format.</td>
+<td>Departure or start of first service in UTC format.</td>
 </tr>
 <tr>
 <td>customer_has_trusted_bookings</td>
@@ -502,7 +537,6 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
     </span><span class="s2">"payment_methods"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">],</span><span class="w">
     </span><span class="s2">"status"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Success"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-
 </span></code></pre>
 <table><thead>
 <tr>
@@ -524,7 +558,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </tbody></table>
 <h3 id='availablepaymentmethod'>AvailablePaymentMethod</h3>
 <blockquote>
-<p>AvailablePaymentMethods Example</p>
+<p>AvailablePaymentMethod Example</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"type"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
@@ -655,21 +689,32 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 <p>As previously mentioned, the <em>Payment</em> procedure is intended to do the main payment process and/or do a previous Fraud analysis. The request must have the following JSON structure:</p>
 
 <aside class="success">
-Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be filled if a fraud analysis must be done, as <i>payment_process</i> must be filled if a payment must be done.
+<b>Remember:</b> <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be filled if a fraud analysis must be done, as <a href ="#paymentprocessrq"><i>payment_process</i></a> must be filled if a payment must be done.
 </aside>
 <h3 id='processrq'>ProcessRQ</h3>
 <blockquote>
 <p>ProcessRQ example</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"card_data"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"card_type"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Explicit"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"currency_amount"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"sender_details"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"fraud_process"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"payment_process"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code>curl https://api.swappt.com/v1/organizations/test/payment <span class="se">\</span>
+     -H <span class="s2">"Authorization: ApiKey YourApiKey"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-type: application/json"</span> <span class="se">\</span>
+     -d  <span class="s1">'{
+            "card_data" : { ... },
+            "card_type" : "Explicit",
+            "currency_amount" : { ... },
+            "sender_details" : { ... },
+            "fraud_process" : { ... },
+            "payment_process" : { ... }
+        }'</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+    <span class="n">cardData</span> <span class="p">=</span> <span class="k">new</span> <span class="n">CardData</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span>
+    <span class="n">cardType</span> <span class="p">=</span> <span class="n">Enums</span><span class="p">.</span><span class="n">CardType</span><span class="p">.</span><span class="n">Explicit</span><span class="p">,</span>
+    <span class="n">currency_amount</span> <span class="p">=</span> <span class="k">new</span> <span class="n">CurrencyAmount</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span>
+    <span class="n">sender_details</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SenderDetails</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span>
+    <span class="n">fraud_process</span> <span class="p">=</span> <span class="k">new</span> <span class="n">FraudProcess</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span>
+    <span class="n">payment_process</span> <span class="p">=</span> <span class="k">new</span> <span class="n">PaymentProcess</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -685,7 +730,7 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>card_type</td>
 <td>String(CardInfoType)</td>
-<td>Used to determine the mandatory format of &#39;card_data&#39; field.</td>
+<td>Used to determine the mandatory format of <em>card_data</em> field.</td>
 </tr>
 <tr>
 <td>currency_amount</td>
@@ -712,16 +757,23 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <blockquote>
 <p>CardData example</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"encrypted_data"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"store_card_info"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"tokenized_data"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"number"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"expiration_month"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"expiration_year"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"security_code"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+    <span class="s2">"store_card_info"</span> : <span class="nb">true</span>,
+    <span class="s2">"number"</span> : <span class="s2">"1111111111111111"</span>,
+    <span class="s2">"expiration_month"</span> : 4,
+    <span class="s2">"expiration_year"</span> : 2035,
+    <span class="s2">"security_code"</span> : <span class="s2">"000"</span>
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+    <span class="n">encryptedData</span> <span class="p">=</span> <span class="k">null</span><span class="p">,</span>
+    <span class="n">storeCardInfo</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
+    <span class="n">tokenizedData</span> <span class="p">=</span> <span class="k">null</span><span class="p">,</span>
+    <span class="n">number</span> <span class="p">=</span> <span class="s">"1111111111111111"</span><span class="p">,</span>
+    <span class="n">expMonth</span> <span class="p">=</span> <span class="m">4</span><span class="p">,</span>
+    <span class="n">expYear</span> <span class="p">=</span> <span class="m">2035</span><span class="p">,</span>
+    <span class="n">securityCode</span> <span class="p">=</span> <span class="s">"000"</span> 
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -732,7 +784,7 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>encrypted_data</td>
 <td>Boolean</td>
-<td>Card data information encrypted by the <em>SWAPPT CSE JavaScript</em>. <strong>Mandatory if <em>card_type</em> is <em>Encrypted</em>.</strong></td>
+<td>Card data information encrypted by the <em>SWAPPT CSE JavaScript</em>. <strong>Mandatory if <em>card_type</em> is <code>Encrypted</code>.</strong></td>
 </tr>
 <tr>
 <td>store_card_info</td>
@@ -742,48 +794,60 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>tokenized_data</td>
 <td>String</td>
-<td>Token pointing the data previously stored on <em>SWAPPT Vault</em>. <strong>Mandatory if <em>card_type</em> is <em>Tokenized</em>.</strong></td>
+<td>Token pointing the data previously stored on <em>SWAPPT Vault</em>. <strong>Mandatory if <em>card_type</em> is <code>Tokenized</code>.</strong></td>
 </tr>
 <tr>
 <td>number</td>
 <td>String</td>
-<td>Card number. <strong>Mandatory if <em>card_type</em> is <em>Explicit</em>.</strong></td>
+<td>Card number. <strong>Mandatory if <em>card_type</em> is <code>Explicit</code>.</strong></td>
 </tr>
 <tr>
 <td>expiration_month</td>
 <td>Integer</td>
-<td>Card expiration month. <strong>Mandatory if <em>card_type</em> is <em>Explicit</em>.</strong></td>
+<td>Card expiration month. <strong>Mandatory if <em>card_type</em> is <code>Explicit</code>.</strong></td>
 </tr>
 <tr>
 <td>expiration_year</td>
 <td>Integer</td>
-<td>Card expiration year. <strong>Mandatory if <em>card_type</em> is <em>Explicit</em>.</strong></td>
+<td>Card expiration year. <strong>Mandatory if <em>card_type</em> is <code>Explicit</code>.</strong></td>
 </tr>
 <tr>
 <td>security_code</td>
 <td>String</td>
-<td>Card security code. <strong>Mandatory if <em>card_type</em> is <em>Explicit</em>.</strong></td>
+<td>Card security code. <strong>Mandatory if <em>card_type</em> is <code>Explicit</code>.</strong></td>
 </tr>
 </tbody></table>
 <h3 id='senderdetails'>SenderDetails:</h3>
 <blockquote>
 <p>SenderDetails example</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="w">
-</span><span class="p">{</span><span class="w">
-    </span><span class="s2">"holder"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"surname"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"email"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"phone_number"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"ssn"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"address"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"billing_address"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"sender_bank_details"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"recipient_bank_details"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+    <span class="s2">"holder"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"id"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"name"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"surname"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"email"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"phone_number"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"ssn"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"address"</span> : <span class="o">{</span> ... <span class="o">}</span>,
+    <span class="s2">"billing_address"</span> : <span class="o">{</span> ... <span class="o">}</span>,
+    <span class="s2">"sender_bank_details"</span> : <span class="o">{</span> ... <span class="o">}</span>,
+    <span class="s2">"recipient_bank_details"</span> : <span class="o">{</span> ... <span class="o">}</span>
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+    <span class="n">holder</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">id</span> <span class="p">=</span> <span class="s">"0"</span><span class="p">,</span>
+    <span class="n">name</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">surname</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">email</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">phoneNumber</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">ssn</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">address</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">billingAddress</span> <span class="p">=</span> <span class="k">new</span> <span class="n">BillingAddress</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span>
+    <span class="n">senderBankDetails</span> <span class="p">=</span> <span class="k">new</span> <span class="n">BankDetails</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span>
+    <span class="n">recipientBankDetails</span> <span class="p">=</span> <span class="k">new</span> <span class="n">BankDetails</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -851,14 +915,21 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <blockquote>
 <p>Address example</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"country_code"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"city"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"address_line1"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"address_line2"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"zip_code"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+    <span class="s2">"country_code"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"city"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"address_line1"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"address_line2"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"zip_code"</span> : <span class="s2">"00000"</span>
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+    <span class="n">countryCode</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">city</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">addressLine1</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">addressLine2</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">zipCode</span> <span class="p">=</span> <span class="s">"00000"</span>
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -896,15 +967,23 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <blockquote>
 <p>BankDetails example</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"bic"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"holder"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"bank_account"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"bank_name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"country_code"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"iban"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+    <span class="s2">"bic"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"holder"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"bank_account"</span> : <span class="o">{</span> ... <span class="o">}</span>,
+    <span class="s2">"bank_name"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"country_code"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"iban"</span> : <span class="s2">"string"</span>
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+    <span class="n">bic</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">holder</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">bankAccount</span> <span class="p">=</span> <span class="k">new</span> <span class="n">BankAccount</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span>
+    <span class="n">bankName</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">countryCode</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">iban</span> <span class="p">=</span> <span class="s">"string"</span>
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -947,11 +1026,15 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <blockquote>
 <p>BankAccount example</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"number"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"security_code"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+    <span class="s2">"number"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"security_code"</span> : <span class="s2">"string"</span>
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+    <span class="n">number</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">security_code</span> <span class="p">=</span> <span class="s">"string"</span>
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -974,17 +1057,25 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <blockquote>
 <p>FraudProcessRQ</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"rules_module"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">],</span><span class="w">
-    </span><span class="s2">"default_result"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"device_fingerprint"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"ip_address"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"session_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"custom_data"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"my_config_key_1"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"my_value1"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+    <span class="s2">"rules_module"</span> : <span class="o">[</span> ... <span class="o">]</span>,
+    <span class="s2">"default_result"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"device_fingerprint"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"ip_address"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"session_id"</span> : <span class="s2">"string"</span>,
+    <span class="s2">"custom_data"</span> : <span class="o">{</span>
+        <span class="s2">"my_config_key_1"</span> : <span class="s2">"my_value1"</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+    <span class="n">rulesModule</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RulesModule</span> <span class="p">[</span> <span class="p">...</span> <span class="p">],</span>
+    <span class="n">defaultResult</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">deviceFingerprint</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">ipAddress</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">sessionID</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+    <span class="n">customData</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">string</span><span class="p">&gt;</span> <span class="p">{</span> <span class="p">{</span><span class="s">"my_config_key_1"</span><span class="p">,</span> <span class="s">"my_value1"</span><span class="p">}</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -995,7 +1086,7 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>rules_module</td>
 <td>Array[<a href ="#skeeperrule"><i>SkeeperRule</i></a>]</td>
-<td>Array of Fraud rules to be applied (if no rules specified, it will be used the configured ones on the *SWAPPT FDS *website.</td>
+<td>Array of Fraud rules to be applied (if no rules specified, it will be used the configured ones on the <em>SWAPPT FDS</em>&#39;s website.</td>
 </tr>
 <tr>
 <td>default_result</td>
@@ -1024,21 +1115,26 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 </tr>
 </tbody></table>
 
-<p>* <em>Protect</em>: Key-Value containing the Custom Fields of the transaction, where Key is the Custom Field name, and Value it’s value (Custom Fields must be previously configured con <em>SWAPPT Protect</em>’s website, more info Here).
-    * <em>V5</em>: Comming soon
-    * <em>Sift_science</em>: Comming soon</p>
+<p>* <code>Protect</code>: Key-Value containing the Custom Fields of the transaction, where Key is the Custom Field name, and Value it’s value (Custom Fields must be previously configured con <em>SWAPPT Protect</em>’s website, more info Here).
+    * <code>V5</code>: Comming soon
+    * <code>Sift_science</code>: Comming soon</p>
 <h3 id='skeeperrule'>SkeeperRule:</h3>
 <blockquote>
 <p>SkeeperRule Example: </p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"modules"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> 
-      </span><span class="s2">"module_key"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"global_decision"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"priority"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+    <span class="s2">"modules"</span> : <span class="o">{</span> 
+      <span class="s2">"module_key"</span> : <span class="o">{</span> ... <span class="o">}</span>
+    <span class="o">}</span>,
+    <span class="s2">"global_decision"</span> : <span class="s2">"Reject"</span>,
+    <span class="s2">"priority"</span> : 3
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+    <span class="n">modules</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Module</span><span class="p">&gt;</span> <span class="p">{</span> <span class="p">{</span><span class="s">"module_key"</span><span class="p">,</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span> <span class="p">}</span> <span class="p">},</span>
+    <span class="n">global_decision</span> <span class="p">=</span> <span class="n">Enums</span><span class="p">.</span><span class="n">GlobalDecision</span><span class="p">.</span><span class="n">Reject</span><span class="p">,</span>
+    <span class="n">priority</span> <span class="p">=</span> <span class="m">3</span>
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -1053,7 +1149,7 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 </tr>
 <tr>
 <td>global_decision</td>
-<td>String</td>
+<td>String(GlobalDecision)</td>
 <td>The result that <em>FDS</em> must return if this rule triggers.</td>
 </tr>
 <tr>
@@ -1066,13 +1162,18 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <blockquote>
 <p>Module Example: </p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"module_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"decision_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Undefined"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"min_scoring"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"max_scoring"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"module_type"</span>: <span class="s2">"ByScoring"</span>,
+  <span class="s2">"min_scoring"</span>: 65,
+  <span class="s2">"max_scoring"</span>: 80
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+  <span class="n">moduleType</span> <span class="p">=</span> <span class="s">"ByDecision"</span><span class="p">,</span>
+  <span class="n">decisionType</span> <span class="p">=</span> <span class="n">Enums</span><span class="p">.</span><span class="n">DecisionType</span><span class="p">.</span><span class="n">Accept</span><span class="p">,</span>
+  <span class="n">minScoring</span> <span class="p">=</span> <span class="k">null</span><span class="p">,</span>
+  <span class="n">maxScoring</span> <span class="p">=</span> <span class="k">null</span>
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -1105,20 +1206,31 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <blockquote>
 <p>PaymentProcessRQ Example: </p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">                             
-  </span><span class="s2">"reference_token"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"payment_details"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">,</span><span class="w">
-  </span><span class="s2">"callback_url_fail"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"callback_url_success"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"client_config"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"my_config_key_1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_value1"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"source"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">    
-  </span><span class="s2">"merchant_reference"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">  
-  </span><span class="s2">"payment_method"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">  
-  </span><span class="s2">"gateway_code"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">  
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>                             
+  <span class="s2">"reference_token"</span> : <span class="s2">"string"</span>,
+  <span class="s2">"payment_details"</span> : <span class="o">{</span> ... <span class="o">}</span> ,
+  <span class="s2">"callback_url_fail"</span> : <span class="s2">"string"</span>,
+  <span class="s2">"callback_url_success"</span> : <span class="s2">"string"</span>,
+  <span class="s2">"client_config"</span> : <span class="o">{</span>
+    <span class="s2">"my_config_key_1"</span>: <span class="s2">"my_value1"</span>
+  <span class="o">}</span>,
+  <span class="s2">"source"</span> : <span class="o">{</span> ... <span class="o">}</span>,    
+  <span class="s2">"merchant_reference"</span> : <span class="s2">"string"</span>,  
+  <span class="s2">"payment_method"</span> : <span class="s2">"string"</span>,  
+  <span class="s2">"gateway_code"</span> : <span class="s2">"string"</span>  
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>                             
+  <span class="n">referenceToken</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+  <span class="n">paymentDetails</span> <span class="p">=</span> <span class="k">new</span> <span class="n">PaymentDetails</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span> <span class="p">,</span>
+  <span class="n">urlFail</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+  <span class="n">urlSuccess</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+  <span class="n">clientConfig</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">string</span><span class="p">&gt;</span> <span class="p">{</span> <span class="p">{</span><span class="s">"my_config_key_1"</span><span class="p">,</span> <span class="s">"my_value1"</span><span class="p">}</span> <span class="p">},</span>
+  <span class="n">source</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Source</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span>    
+  <span class="n">merchantReference</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>  
+  <span class="n">paymentMethod</span> <span class="p">=</span> <span class="n">Enums</span><span class="p">.</span><span class="n">PaymentMethodType</span><span class="p">.</span><span class="n">Visa</span><span class="p">,</span>  
+  <span class="n">gatewaycode</span> <span class="p">=</span> <span class="s">"string"</span>  
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -1129,7 +1241,7 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>reference_token</td>
 <td>String</td>
-<td><em>AvailablePaymentMethods</em> response token.</td>
+<td><a href ="#availablepaymentmethods"><i>AvailablePaymentMethods</i></a> response token.</td>
 </tr>
 <tr>
 <td>payment_details</td>
@@ -1176,17 +1288,27 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <blockquote>
 <p>PaymentDetails Example: </p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">                             
-  </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"reasons"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"payment_items_details"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"booking_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"num_installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"agency_code_partner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"language_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>                             
+  <span class="s2">"amount"</span>: 8.95,
+  <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
+  <span class="s2">"reasons"</span>: <span class="o">[</span> ... <span class="o">]</span>,
+  <span class="s2">"payment_items_details"</span>: <span class="o">{</span> ... <span class="o">}</span>,
+  <span class="s2">"booking_reference"</span>: <span class="s2">"string"</span>,
+  <span class="s2">"num_installments"</span>: 0,
+  <span class="s2">"agency_code_partner"</span>: <span class="s2">"string"</span>,
+  <span class="s2">"language_code"</span>: <span class="s2">"string"</span>
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>                             
+  <span class="n">amount</span><span class="p">:</span> <span class="m">8.95</span><span class="p">,</span>
+  <span class="n">currency</span> <span class="p">=</span> <span class="s">"EUR"</span><span class="p">,</span>
+  <span class="n">reasons</span> <span class="p">=</span>  <span class="k">new</span> <span class="n">Reason</span><span class="p">[]</span> <span class="p">{</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span> <span class="p">},</span>
+  <span class="n">paymentItemsDetails</span> <span class="p">=</span> <span class="k">new</span> <span class="n">PaymentItemDetails</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span>
+  <span class="n">bookingReference</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+  <span class="n">numInstallments</span> <span class="p">=</span> <span class="m">0</span><span class="p">,</span>
+  <span class="n">agencyCodePartner</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+  <span class="n">languageCode</span> <span class="p">=</span> <span class="s">"string"</span>
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -1239,11 +1361,15 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <blockquote>
 <p>Reason Example: </p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">                             
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>                             
+  <span class="s2">"id"</span>: <span class="s2">"string"</span>,
+  <span class="s2">"content"</span>: <span class="s2">"string"</span>
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>                             
+  <span class="n">id</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+  <span class="n">content</span> <span class="p">=</span> <span class="s">"string"</span>
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -1266,19 +1392,31 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <blockquote>
 <p>PaymentItemDetail Example: </p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"date_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-08T10:50"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"date_finish"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-08T10:50"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"image_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"id"</span>: <span class="s2">"0"</span>,
+  <span class="s2">"name"</span>: <span class="s2">"string"</span>,
+  <span class="s2">"description"</span>: <span class="s2">"string"</span>,
+  <span class="s2">"date_start"</span>: <span class="s2">"2017-08-08T10:50"</span>,
+  <span class="s2">"date_finish"</span>: <span class="s2">"2017-08-08T10:50"</span>,
+  <span class="s2">"quantity"</span>: 1,
+  <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
+  <span class="s2">"amount"</span>: 8.95,
+  <span class="s2">"image_url"</span>: <span class="s2">"string"</span>,
+  <span class="s2">"provider"</span>: <span class="s2">"string"</span>
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+  <span class="n">id</span> <span class="p">=</span> <span class="s">"0"</span><span class="p">,</span>
+  <span class="n">name</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+  <span class="n">description</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+  <span class="n">date_start</span> <span class="p">=</span> <span class="s">"2017-08-08T10:50"</span><span class="p">,</span>
+  <span class="n">date_finish</span> <span class="p">=</span> <span class="s">"2017-08-08T10:50"</span><span class="p">,</span>
+  <span class="n">quantity</span> <span class="p">=</span> <span class="m">1</span><span class="p">,</span>
+  <span class="n">currency</span> <span class="p">=</span> <span class="s">"EUR"</span><span class="p">,</span>
+  <span class="n">amount</span> <span class="p">=</span> <span class="m">8.95</span><span class="p">,</span>
+  <span class="n">image_url</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+  <span class="n">provider</span> <span class="p">=</span> <span class="s">"string"</span>
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -1289,7 +1427,7 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>id</td>
 <td>String</td>
-<td></td>
+<td>Item ID.</td>
 </tr>
 <tr>
 <td>name</td>
@@ -1341,11 +1479,15 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <blockquote>
 <p>Source Example: </p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">                             
-  </span><span class="s2">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"agency_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>                             
+  <span class="s2">"country_code"</span>: <span class="s2">"string"</span>,
+  <span class="s2">"agency_code"</span>: <span class="s2">"string"</span>
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>                             
+  <span class="n">countryCode</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+  <span class="n">agencyCode</span> <span class="p">=</span> <span class="s">"string"</span>
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -1385,12 +1527,12 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>fraud_response</td>
 <td><a href ="#fraudprocessrs"><i>FraudProcessRS</i></a></td>
-<td>FDS result information.</td>
+<td><em>FDS</em> result information.</td>
 </tr>
 <tr>
 <td>payment_response</td>
 <td><a href ="#paymentprocessrs"><i>PaymentProcessRS</i></a></td>
-<td>Switcher response.</td>
+<td><em>Switcher</em> response.</td>
 </tr>
 <tr>
 <td>card_data_token</td>
@@ -1421,7 +1563,7 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>result</td>
 <td>String(GlobalDecision)</td>
-<td>FDS&#39;s final result.</td>
+<td><em>FDS</em>&#39;s final result.</td>
 </tr>
 </tbody></table>
 <h3 id='paymentprocessrs'>PaymentProcessRS</h3>
@@ -1584,17 +1726,26 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <blockquote>
 <p>PaymentDetailsRQ</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"search_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ByTransaction"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transaction_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transaction_start_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-10T07:49:05.089Z"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transaction_end_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-10T07:49:05.089Z"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"session_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"source"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"merchant_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"gateway_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"search_type"</span>: <span class="s2">"ByDates"</span>,
+  <span class="s2">"transaction_start_time"</span>: <span class="s2">"2017-08-10T07:49:05.089Z"</span>,
+  <span class="s2">"transaction_end_time"</span>: <span class="s2">"2017-08-10T07:49:05.089Z"</span>,
+  <span class="s2">"session_code"</span>: <span class="s2">"string"</span>,
+  <span class="s2">"source"</span>: <span class="o">{</span> ... <span class="o">}</span>,
+  <span class="s2">"merchant_reference"</span>: <span class="s2">"string"</span>,
+  <span class="s2">"gateway_code"</span>: <span class="s2">"string"</span>
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+  <span class="n">searchType</span> <span class="p">=</span> <span class="n">Enums</span><span class="p">.</span><span class="n">SearchType</span><span class="p">.</span><span class="n">ByTransaction</span><span class="p">,</span>
+  <span class="n">transactionID</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+  <span class="n">transactionStartTime</span> <span class="p">=</span> <span class="k">null</span><span class="p">,</span>
+  <span class="n">transactionEndTime</span> <span class="p">=</span> <span class="k">null</span><span class="p">,</span>
+  <span class="n">sessionCode</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+  <span class="n">source</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Source</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span>
+  <span class="n">merchantReference</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+  <span class="n">gatewayCode</span> <span class="p">=</span> <span class="s">"string"</span>
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -1610,17 +1761,17 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>transaction_id</td>
 <td>String</td>
-<td>Transaction id (only when &#39;<em>ByTransaction</em>&#39; searches)</td>
+<td>Transaction id (only when <code>ByTransaction</code> searches)</td>
 </tr>
 <tr>
 <td>transaction_start_time</td>
 <td>String</td>
-<td>Search start date (only when &#39;<em>ByDates</em>&#39; searches)</td>
+<td>Search start date (only when <code>ByDates</code> searches)</td>
 </tr>
 <tr>
 <td>transaction_end_time</td>
 <td>String</td>
-<td>Search end date (only when &#39;<em>ByDates</em>&#39; searches)</td>
+<td>Search end date (only when <code>ByDates</code> searches)</td>
 </tr>
 <tr>
 <td>session_code</td>
@@ -1748,7 +1899,7 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 </tr>
 <tr>
 <td>refund_reasons</td>
-<td>Array[ <a href ="#reason"><i>Reason</i></a> Reason]</td>
+<td>Array[<a href ="#reason"><i>Reason</i></a>]</td>
 <td>Refund reasons.</td>
 </tr>
 <tr>
@@ -1761,18 +1912,29 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <blockquote>
 <p>PaymentRefundRQ</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"transaction_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"currency_amount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"sender"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"reasons"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"agency_code_partner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"session_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"source"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"merchant_reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"gateway_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"transaction_id"</span>: <span class="s2">"string"</span>,
+  <span class="s2">"currency_amount"</span>: <span class="o">{</span> ... <span class="o">}</span>,
+  <span class="s2">"sender"</span>: <span class="o">{</span> ... <span class="o">}</span>,
+  <span class="s2">"reasons"</span>: <span class="o">[</span> ... <span class="o">]</span>,
+  <span class="s2">"agency_code_partner"</span>: <span class="s2">"string"</span>,
+  <span class="s2">"session_code"</span>: <span class="s2">"string"</span>,
+  <span class="s2">"source"</span>: <span class="o">{</span> ... <span class="o">}</span>,
+  <span class="s2">"merchant_reference"</span>: <span class="s2">"string"</span>,
+  <span class="s2">"gateway_code"</span>: <span class="s2">"string"</span>
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+  <span class="n">transactionID</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+  <span class="n">currencyAmount</span> <span class="p">=</span> <span class="k">new</span> <span class="n">CurrencyAmount</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span>
+  <span class="n">sender</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SenderDetails</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span>
+  <span class="n">reasons</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Reason</span> <span class="p">[]</span> <span class="p">[</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span> <span class="p">],</span>
+  <span class="n">agencyCodePartner</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+  <span class="n">sessionCode</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+  <span class="n">source</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Source</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span>
+  <span class="n">merchantReference</span> <span class="p">=</span> <span class="s">"string"</span><span class="p">,</span>
+  <span class="n">gatewayCode</span> <span class="p">=</span> <span class="s">"string"</span>
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -1867,10 +2029,17 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <blockquote>
 <p>TokenizeRQ Example</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"credit_card"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"credit_card"</span>: <span class="o">{</span> ... <span class="o">}</span>,
+  <span class="s2">"meta_data"</span>: <span class="o">{</span>
+    <span class="s2">"client_name"</span>:<span class="s2">"name"</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+  <span class="n">creditCard</span> <span class="p">=</span> <span class="k">new</span> <span class="n">CreditCard</span><span class="p">{</span> <span class="p">...</span> <span class="p">},</span>
+  <span class="n">metaData</span> <span class="p">=</span> <span class="p">{</span> <span class="p">{</span><span class="s">"client_name"</span><span class="p">,</span> <span class="s">"name"</span><span class="p">}</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -1883,18 +2052,33 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <td><a href ="#creditcarddata"><i>CreditCardData</i></a></td>
 <td>Credit card raw data.</td>
 </tr>
+<tr>
+<td>meta_data</td>
+<td>Key-Value</td>
+<td>Optional meta-data that wants to be added to the card (More information below).</td>
+</tr>
 </tbody></table>
+
+<aside class="notice">
+The possible meta-data that can be stored with a credit card is `client_id`, `client_name`, `bin_code`, `last4` and `booking_reference`. It's important to use that exact names as the Keys. 
+</aside>
 <h3 id='creditcarddata'>CreditCardData</h3>
 <blockquote>
 <p>CreditCardData Example</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"expiration_month"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"expiration_year"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"security_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+    <span class="s2">"number"</span>: <span class="s2">"1111111111111111"</span>,
+    <span class="s2">"expiration_month"</span>: 4,
+    <span class="s2">"expiration_year"</span>: 2035,
+    <span class="s2">"security_code"</span>: <span class="s2">"000"</span>
+<span class="o">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+    <span class="n">number</span> <span class="p">=</span> <span class="s">"1111111111111111"</span><span class="p">,</span>
+    <span class="n">expMonth</span> <span class="p">=</span> <span class="m">4</span><span class="p">,</span>
+    <span class="n">expYear</span> <span class="p">=</span> <span class="m">2035</span><span class="p">,</span>
+    <span class="n">securityCode</span> <span class="p">=</span> <span class="s">"000"</span>
+<span class="p">}</span>
+</code></pre>
 <table><thead>
 <tr>
 <th>Node</th>
@@ -1951,9 +2135,9 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 </tr>
 </tbody></table>
 
-<p>Where status takes the values <code>Success</code> or <code>Error</code>. If <code>Success</code>, <code>token</code> contains the unique token, if <code>Error</code>, <code>error_details</code> contains information related to the error occurred (see *Appendix *for a deep description). Note that the token returned has 1 unique use. When used, the system will provide a new one (if desired), and will make the used one useless.</p>
+<p>Where status takes the values <code>Success</code> or <code>Error</code>. If <code>Success</code>, <em>token</em> contains the unique token, if <code>Error</code>, <em>error_details</em> contains information related to the error occurred (see <a href ="#errordetails"><i>Appendix&#39;s section</a></i> for a deep description). Note that the token returned has 1 unique use. When used, the system will provide a new one (if desired), and will make the used one useless.</p>
 <h2 id='retrieve'>Retrieve</h2>
-<p>This call will return the information associated to a token. Moreover, if you wish the data to remain saved, you should set the <em>retain</em> field to <code>true</code>.</p>
+<p>This call will return the information associated to a token. Moreover, if you wish the data to remain saved, you should set the <em>retain</em> field to <code>True</code>.</p>
 <h3 id='retriverq'>RetriveRQ</h3>
 <blockquote>
 <p>RetriveRQ example:</p>
@@ -2126,7 +2310,7 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <td>Indicates that rule should be based on Decision.</td>
 </tr>
 <tr>
-<td>ByScore</td>
+<td>ByScoring</td>
 <td>Indicates that rule should be based on Score.</td>
 </tr>
 </tbody></table>
@@ -2264,7 +2448,7 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 <tr>
 <td>error_type</td>
 <td>String(SolutionCode)</td>
-<td>Determines the <em>SWAPPT</em> Solution where the error was caused (<em>&#39;FDS</em>, <em>&#39;Switcher&#39;</em>, <em>&#39;Vault&#39;</em>), or <em>&#39;Technical&#39;</em> in case of internal error.</td>
+<td>Determines the <em>SWAPPT</em> Solution where the error was caused (<code>FDS</code>, <code>Switcher</code>, <code>Vault</code>), or <code>Technical</code> in case of internal error.</td>
 </tr>
 <tr>
 <td>error_messages</td>
@@ -2295,7 +2479,7 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
 </tr>
 <tr>
 <td>process_moment</td>
-<td>Says when the error was produced (<em>BeforeCallProvider</em>, <em>WhileCallingProvider</em>, <em>AfterCallProvider</em>), which will help us to detect the error and will tell you if the provider call was done.</td>
+<td>Says when the error was produced (<code>BeforeCallProvider</code>, <code>WhileCallingProvider</code>, <code>AfterCallProvider</code>), which will help us to detect the error and will tell you if the provider call was done.</td>
 </tr>
 </tbody></table>
 <h1 id='errors'>Errors</h1>
@@ -2342,9 +2526,8 @@ Remember: <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be fill
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="curl">curl</a>
-                <a href="#" data-language-name="csharp">csharp</a>
-                <a href="#" data-language-name="go">go</a>
+                <a href="#" data-language-name="shell">cURL</a>
+                <a href="#" data-language-name="csharp">C#</a>
           </div>
       </div>
     </div>
