@@ -285,10 +285,10 @@
 
 <blockquote>
 <p>We also have <em>Swagger</em>, a platform to test our API. Check it out!
-<br> <b><a href ='https://api.swappt.com/swagger'>https://api.swappt.com/swagger</a></b></p>
+<br/> <b><a href ='https://api.swappt.com/swagger'>https://api.swappt.com/swagger</a></b></p>
 </blockquote>
 
-<p>SWAPPT API is a REST API that has an HTTP POST call for each operation. It is composed of three primary processes:</p>
+<p>SWAPPT API is a REST API that has an HTTP POST method for each operation. It is composed of three primary processes:</p>
 
 <ul>
 <li><strong>Available payment methods:</strong> Returns the available payment methods.</li>
@@ -297,14 +297,14 @@
 </ul>
 
 <aside class="notice">
-You will find some types described as <i>String(SomeTypeName)</i>. This means that the type is an Enumerated type (of type <i>SomeTypeName</i>) and it has a closed set of values. You can find the enumerated types explained on the <a href ="#additional-data-types"><i>corresponding appendix section</i></a>.
+You will find some types described as `String(SomeTypeName)`. This means that the type is an Enumerated type (of type `SomeTypeName`) and it has a closed set of values. You can find the enumerated types explained on the `<a href ="#additional-data-types">corresponding appendix section</a>`.
 </aside>
 <h2 id='endpoints'>Endpoints</h2>
 <p>The endpoints for each operation follow the same structure:</p>
 
 <blockquote>
 <p><strong>EXAMPLE:</strong>
-Let&#39;s say that you belong to the organisation named &quot;test&quot; and you wish to use the version 1 of the SWAPPT API to make a <strong>payment</strong>. Your request would be the following:</p>
+Let&#39;s say that you belong to the organisation named &quot;test&quot; and you wish to use the version 1 of the SWAPPT API to make a <code>payment</code>. Your request would be the following:</p>
 
 <p><code>POST https://api.swappt.com/v1/organizations/test/payment</code></p>
 </blockquote>
@@ -318,15 +318,15 @@ Let&#39;s say that you belong to the organisation named &quot;test&quot; and you
 </tr>
 </thead><tbody>
 <tr>
-<td>VERSION_ID</td>
+<td><code>VERSION_ID</code></td>
 <td>API Version.</td>
 </tr>
 <tr>
-<td>ORGANIZATION_ID</td>
+<td><code>ORGANIZATION_ID</code></td>
 <td>Your identifier as organization (that you will get when live).</td>
 </tr>
 <tr>
-<td>OPERATION</td>
+<td><code>operation</code></td>
 <td>The operation to realize.</td>
 </tr>
 </tbody></table>
@@ -344,37 +344,41 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
   <span class="n">request</span><span class="p">.</span><span class="n">Content</span> <span class="p">=</span> <span class="n">content</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre>
-<p>You need to authenticate when performing an API call. Moreover, the API will check your Authorization for every operation, o make sure that you have permissions to make every request.</p>
+<p>You need to authenticate when performing an API method. Moreover, the API will perform authorization in each and every method call, please make sure that you have thr necessary permissions to call the required method.</p>
 
-<p>To authenticate, you need to place the word &#39;ApiKey&#39; followed by your API key on the <strong>Authorization</strong> header of your HTTP request.</p>
+<p>To authenticate, you need to place the word <code>ApiKey</code> followed by your API key on the <code>Authorization</code> header of your HTTP request.</p>
 
-<aside class="notice">
-<b>NOTE:</b> All the POST calls use JSON as input value. As so, the header "Content-type: application/json" is mandatory.
+<aside class="warning">
+All the POST calls use JSON as input value. As so, the header <b>Content-type: application/json</b> is mandatory.
 </aside>
 <h2 id='api-flow'>API Flow</h2>
-<p>To adjust to our customers&#39; needs, we offer several configurations to use the API:</p>
+<p>To adjust to our customers&#39; needs, we offer several possibilities as to API usage:</p>
 
 <ul>
-<li>Use the API directly analyze the fraud of a transaction without making any payment.</li>
-<li>Use the API to make a payment without analysing the fraud.</li>
-<li>Use the API to combine both configurations.</li>
+<li>Use the API to perform fraud analysis in a given transaction without making any payment.</li>
+<li>Use the API to make a payment without performing fraud analys.</li>
+<li>Use the API to perform both fraud analysis and payment.</li>
 </ul>
 <h3 id='to-perform-fraud-analysis'>To perform fraud analysis:</h3>
-<p>Use the <a href ="#payment"><i>Payment</i></a> call by filling in the &#39;&#39;fraud_process&#39;&#39; information during the request. The application will then return an answer.</p>
+<p>Use the <a href ="#payment"><code>Payment</code></a> method by filling in the <code>fraud_process</code> information during the request. The application will then return an answer.</p>
 <h3 id='to-perform-a-payment'>To perform a payment:</h3>
-<p>The first step is to retrieve all payment methods available. To do so, we will use the call <a href ="#availablepaymentmethods"><i>AvailablePaymentMethods</i></a>. This call will return the payment methods according to the configuration made on the platform. </p>
+<p>The first step is to retrieve all payment methods available. To do so, we will use the method <a href ="#availablepaymentmethods"><code>AvailablePaymentMethods</code></a>. This method will return all the available payment methods according to the configuration set on the platform. </p>
 
-<p>This list will be shown to the final customer for him to choose the payment method that suits him best. Once the customer selects a payment method, the <a href ="#payment"><i>Payment</i></a> call will be launched. This call will carry out the fraud analysis only if specified. To make the call, we will need the information returned in the response of the call AvailablePaymentMethods.</p>
+<p>This list will be shown to the final customer in order to allow the choosing of the payment method. Once the customer selects a payment method, the <a href ="#payment"><code>Payment</code></a> method must be called. This method will carry out the fraud analysis (if specified). To call thi method, the information returned in the response of the <code>AvailablePaymentMethods</code> method is required.</p>
 
 <p>Depending on the method of payment selected it will be necessary to proceed in the following ways:</p>
 
 <ul>
-<li><p><strong>If the payment method is redirection:</strong> Along with the response of the Payment call, will be attached the information that will allow you to redirect the customer to the payment platform to complete the payment. As soon as the payment is confirmed, the customer will be redirected to the URL provided in the request for status ok. If the payment is denied, he will be redirected to the k.o page.</p></li>
-<li><p><strong>When the payment method is ticket or ATM:</strong> The customer will need to be redirected to an off platform to complete the payment. Either by printing the ticket or by paying online from his bank&#39;s website.</p></li>
-<li><p><strong>When the payment method is not carried out in any of these ways:</strong> It will be held internally from the call Payment, and you will only need to check the status of the transaction.</p></li>
+<li><p><strong>If the payment method is redirection:</strong> Along with the response of the Payment method, will be attached the information that will allow you to redirect the customer to the payment platform to complete the payment. As soon as the payment is confirmed, the customer will be redirected to the URL provided in the request for status ok (<code>callback_url_success</code>). If the payment is denied, he will be redirected to the specified error url (<code>callback_url_fail</code>).</p></li>
+<li><p><strong>When the payment method is ticket or ATM:</strong> The customer will need to be redirected to a third party platform to complete the payment. Either by printing the ticket or by paying online from his bank&#39;s website.</p></li>
+<li><p><strong>When the payment method is not carried out in any of these ways:</strong> It will be held internally from the method Payment, and you will only need to check the status of the transaction.</p></li>
 </ul>
 <h1 id='payment'>Payment</h1><h2 id='availablepaymentmethods'>AvailablePaymentMethods</h2>
-<p>The <em>available_payment_methods</em> is the first call that needs to be executed. With this call, you will get the list of payment methods available for the transaction and the configuration specified. <strong>Note:</strong> This step is mandatory for payments but not required for fraud analysis.</p>
+<p>The <code>available_payment_methods</code> is the first method that needs to be executed. With this method, you will get the list of payment methods available for the transaction and the configuration specified. </p>
+
+<aside class="warning">
+This step is mandatory for payments but not required for fraud analysis.
+</aside>
 <h3 id='availablepaymentmethodsrq'>AvailablePaymentMethodsRQ</h3>
 <blockquote>
 <p>AvailablePaymentMethodsRQ example:</p>
@@ -409,15 +413,15 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>currency_amount</td>
-<td><a href ="#currencyamount"><i>CurrencyAmount</i></a></td>
-<td>Payment base amount where taxes will be applied. The CurrencyAmount specifies the amount and the currency used for this payment. The currency code must be specified in ISO3 (ISO 4217)) format.</td>
+<td><a href ="#currencyamount"><code>CurrencyAmount</code></a></td>
+<td>Payment base amount where taxes will be applied. The `CurrencyAmount specifies the amount and the currency used for this payment. The currency code must be specified in ISO3 (ISO 4217)) format.</td>
 </tr>
 <tr>
 <td>departure</td>
@@ -436,7 +440,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </tr>
 <tr>
 <td>fraud_information</td>
-<td><a href ="#fraudinformation"><i>FraudInformation</i></a></td>
+<td><a href ="#fraudinformation"><code>FraudInformation</code></a></td>
 <td>This node can indicate previous fraud information so only secure gateways are returned.</td>
 </tr>
 <tr>
@@ -470,7 +474,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 </tr>
 </thead><tbody>
@@ -503,7 +507,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -540,14 +544,14 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </span></code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>payment_methods</td>
-<td>Array[<a href ="#availablepaymentmethod"><i>AvailablePaymentMethod</i></a>]</td>
+<td>Array[<a href ="#availablepaymentmethod"><code>AvailablePaymentMethod</code></a>]</td>
 <td>List of available payment methods.</td>
 </tr>
 <tr>
@@ -576,7 +580,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </span></code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -589,7 +593,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 <tr>
 <td>reference_token</td>
 <td>Boolean</td>
-<td>Token generated during the search. It is necessary for the next flow call.</td>
+<td>Token generated during the search. It is necessary for the next flow method.</td>
 </tr>
 <tr>
 <td>amount_total</td>
@@ -628,7 +632,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </tr>
 <tr>
 <td>offline_transference_list</td>
-<td>Array[<a href ="#offlinetransference"><i>OfflineTransference</i></a>]</td>
+<td>Array[<a href ="#offlinetransference"><code>OfflineTransference</code></a>]</td>
 <td>The list of the offline transference payment types avaliable.</td>
 </tr>
 </tbody></table>
@@ -647,7 +651,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </span></code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -684,12 +688,12 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </tr>
 </tbody></table>
 <h2 id='process'>Process</h2>
-<p>The main process where a payment and/or fraud analysis is complete (if <em>SWAPPT Switcher</em> and/or <em>SWAPPT FDS</em> solutions are hired and activated). It requires only two calls for the SWAPPT API to execute a payment: <em>Get Available Payment Methods</em>, and <em>Payment</em>. More actions can be done related to the payment process, a <em>Payment Details</em> call to retrieve the status and details of a payment, and a <em>Refund</em> call to refund a payment.</p>
+<p>The main process where a payment and/or fraud analysis is complete (if <em>SWAPPT Switcher</em> and/or <em>SWAPPT FDS</em> solutions are hired and activated). It requires only two calls for the SWAPPT API to execute a payment: <em>Get Available Payment Methods</em>, and <em>Payment</em>. More actions can be done related to the payment process, a <em>Payment Details</em> method to retrieve the status and details of a payment, and a <em>Refund</em> method to refund a payment.</p>
 
 <p>As previously mentioned, the <em>Payment</em> procedure is intended to do the main payment process and/or do a previous Fraud analysis. The request must have the following JSON structure:</p>
 
 <aside class="success">
-<b>Remember:</b> <a href ="#fraudprocessrq"><i>fraud_process</i></a> field must be filled if a fraud analysis must be done, as <a href ="#paymentprocessrq"><i>payment_process</i></a> must be filled if a payment must be done.
+<b>Remember:</b> <a href ="#fraudprocessrq">`fraud_process`</a> field must be filled if a fraud analysis must be done, as <a href ="#paymentprocessrq">`payment_process`</a> must be filled if a payment must be done.
 </aside>
 <h3 id='processrq'>ProcessRQ</h3>
 <blockquote>
@@ -717,14 +721,14 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>card_data</td>
-<td><a href ="#carddata"><i>CardData</i></a></td>
+<td><a href ="#carddata"><code>CardData</code></a></td>
 <td>Card data information.</td>
 </tr>
 <tr>
@@ -734,22 +738,22 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </tr>
 <tr>
 <td>currency_amount</td>
-<td><a href ="#currencyamount"><i>CurrencyAmount</i></a></td>
+<td><a href ="#currencyamount"><code>CurrencyAmount</code></a></td>
 <td>Currency of the payment</td>
 </tr>
 <tr>
 <td>sender_details</td>
-<td><a href ="#senderdetails"><i>SenderDetails</i></a></td>
+<td><a href ="#senderdetails"><code>SenderDetails</code></a></td>
 <td>Buyer information</td>
 </tr>
 <tr>
 <td>fraud_process</td>
-<td><a href ="#fraudprocessrq"><i>FraudProcessRQ</i></a></td>
+<td><a href ="#fraudprocessrq"><code>FraudProcessRQ</code></a></td>
 <td>Needed if you want to perform a fraud analysis.</td>
 </tr>
 <tr>
 <td>payment_process</td>
-<td><a href ="#paymentprocessrq"><i>PaymentProcessRQ</i></a></td>
+<td><a href ="#paymentprocessrq"><code>PaymentProcessRQ</code></a></td>
 <td>Needed if you want to make a payment.</td>
 </tr>
 </tbody></table>
@@ -776,7 +780,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -850,7 +854,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -892,22 +896,22 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </tr>
 <tr>
 <td>address</td>
-<td><a href ="#address"><i>Address</i></a></td>
+<td><a href ="#address"><code>Address</code></a></td>
 <td>Sender address.</td>
 </tr>
 <tr>
 <td>billing_address</td>
-<td><a href ="#address"><i>Address</i></a></td>
+<td><a href ="#address"><code>Address</code></a></td>
 <td>Billing address.</td>
 </tr>
 <tr>
 <td>sender_bank_details</td>
-<td><a href ="#bankdetails"><i>BankDetails</i></a></td>
+<td><a href ="#bankdetails"><code>BankDetails</code></a></td>
 <td>BankDetails Sender bank details.</td>
 </tr>
 <tr>
 <td>recipient_bank_details</td>
-<td><a href ="#bankdetails"><i>BankDetails</i></a></td>
+<td><a href ="#bankdetails"><code>BankDetails</code></a></td>
 <td>Recipent bank details.</td>
 </tr>
 </tbody></table>
@@ -932,7 +936,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -986,7 +990,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -1003,7 +1007,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </tr>
 <tr>
 <td>bank_account</td>
-<td><a href ="#bankaccount"><i>BankAccount</i></a></td>
+<td><a href ="#bankaccount"><code>BankAccount</code></a></td>
 <td>Bank account data.</td>
 </tr>
 <tr>
@@ -1037,7 +1041,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -1078,14 +1082,14 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>rules_module</td>
-<td>Array[<a href ="#skeeperrule"><i>SkeeperRule</i></a>]</td>
+<td>Array[<a href ="#skeeperrule"><code>SkeeperRule</code></a>]</td>
 <td>Array of Fraud rules to be applied (if no rules specified, it will be used the configured ones on the <em>SWAPPT FDS</em>&#39;s website.</td>
 </tr>
 <tr>
@@ -1137,7 +1141,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -1145,7 +1149,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 <tr>
 <td>modules</td>
 <td>Key-Value</td>
-<td>The combination of results that the tools should return. Key: String(ToolCode) Value: <a href ="#module"><i>Module</i></a></td>
+<td>The combination of results that the tools should return. Key: String(ToolCode) Value: <a href ="#module"><code>Module</code></a></td>
 </tr>
 <tr>
 <td>global_decision</td>
@@ -1176,7 +1180,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -1233,7 +1237,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -1241,11 +1245,11 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 <tr>
 <td>reference_token</td>
 <td>String</td>
-<td><a href ="#availablepaymentmethods"><i>AvailablePaymentMethods</i></a> response token.</td>
+<td><a href ="#availablepaymentmethods"><code>AvailablePaymentMethods</code></a> response token.</td>
 </tr>
 <tr>
 <td>payment_details</td>
-<td><a href ="#paymentdetails"><i>PaymentDetails</i></a></td>
+<td><a href ="#paymentdetails"><code>PaymentDetails</code></a></td>
 <td>Information about the payment.</td>
 </tr>
 <tr>
@@ -1265,7 +1269,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </tr>
 <tr>
 <td>source</td>
-<td><a href ="#source"><i>Source</i></a></td>
+<td><a href ="#source"><code>Source</code></a></td>
 <td>Transaction&#39;s agency origin.</td>
 </tr>
 <tr>
@@ -1311,7 +1315,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -1328,12 +1332,12 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </tr>
 <tr>
 <td>reasons</td>
-<td>Array[<a href ="#reason"><i>Reason</i></a>]</td>
+<td>Array[<a href ="#reason"><code>Reason</code></a>]</td>
 <td>Payment breakdown in reasons format (mandatory).</td>
 </tr>
 <tr>
 <td>payment_items_details</td>
-<td><a href ="#paymentitemdetails"><i>PaymentItemDetails</i></a></td>
+<td><a href ="#paymentitemdetails"><code>PaymentItemDetails</code></a></td>
 <td>Payment breakdown in items (mandatory).</td>
 </tr>
 <tr>
@@ -1372,7 +1376,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -1419,7 +1423,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -1490,7 +1494,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -1519,19 +1523,19 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </span></code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>fraud_response</td>
-<td><a href ="#fraudprocessrs"><i>FraudProcessRS</i></a></td>
+<td><a href ="#fraudprocessrs"><code>FraudProcessRS</code></a></td>
 <td><em>FDS</em> result information.</td>
 </tr>
 <tr>
 <td>payment_response</td>
-<td><a href ="#paymentprocessrs"><i>PaymentProcessRS</i></a></td>
+<td><a href ="#paymentprocessrs"><code>PaymentProcessRS</code></a></td>
 <td><em>Switcher</em> response.</td>
 </tr>
 <tr>
@@ -1555,7 +1559,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </span></code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -1577,19 +1581,19 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </span></code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>transaction</td>
-<td><a href ="#paymenttransaction"><i>PaymentTransaction</i></a></td>
+<td><a href ="#paymenttransaction"><code>PaymentTransaction</code></a></td>
 <td>Information about the transaction done.</td>
 </tr>
 <tr>
 <td>redirect</td>
-<td><a href ="#redirect"><i>Redirect</i></a></td>
+<td><a href ="#redirect"><code>Redirect</code></a></td>
 <td>Redirect information.</td>
 </tr>
 </tbody></table>
@@ -1611,7 +1615,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </span></code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -1638,7 +1642,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </tr>
 <tr>
 <td>currency_amount</td>
-<td><a href ="#currencyamount"><i>CurrencyAmount</i></a></td>
+<td><a href ="#currencyamount"><code>CurrencyAmount</code></a></td>
 <td>Transaction&#39;s amount.</td>
 </tr>
 <tr>
@@ -1674,7 +1678,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </span></code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -1691,8 +1695,8 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </tr>
 <tr>
 <td>form_inputs</td>
-<td><a href ="#forminput"><i>FormInput</i></a></td>
-<td>Inputs to add to the redirect call.</td>
+<td><a href ="#forminput"><code>FormInput</code></a></td>
+<td>Inputs to add to the redirect method.</td>
 </tr>
 </tbody></table>
 <h3 id='forminput'>FormInput</h3>
@@ -1706,7 +1710,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </span></code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -1748,7 +1752,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -1780,7 +1784,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </tr>
 <tr>
 <td>source</td>
-<td><a href ="#source"><i>Source</i></a></td>
+<td><a href ="#source"><code>Source</code></a></td>
 <td>Transaction&#39;s agency origin.</td>
 </tr>
 <tr>
@@ -1806,14 +1810,14 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </span></code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>transactions</td>
-<td>Array[<a href ="#detailstransaction"><i>DetailsTransaction</i></a>]</td>
+<td>Array[<a href ="#detailstransaction"><code>DetailsTransaction</code></a>]</td>
 <td>Details of every transaction involving this payment.</td>
 </tr>
 <tr>
@@ -1847,7 +1851,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </span></code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -1874,7 +1878,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </tr>
 <tr>
 <td>currency_amount</td>
-<td><a href ="#currencyamount"><i>CurrencyAmount</i></a></td>
+<td><a href ="#currencyamount"><code>CurrencyAmount</code></a></td>
 <td>Transaction&#39;s amount.</td>
 </tr>
 <tr>
@@ -1899,12 +1903,12 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </tr>
 <tr>
 <td>refund_reasons</td>
-<td>Array[<a href ="#reason"><i>Reason</i></a>]</td>
+<td>Array[<a href ="#reason"><code>Reason</code></a>]</td>
 <td>Refund reasons.</td>
 </tr>
 <tr>
 <td>refunded_currency_amount</td>
-<td><a href ="#currencyamount"><i>CurrencyAmount</i></a></td>
+<td><a href ="#currencyamount"><code>CurrencyAmount</code></a></td>
 <td>If a refund was done, the amount that was refunded.</td>
 </tr>
 </tbody></table>
@@ -1937,7 +1941,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -1949,17 +1953,17 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </tr>
 <tr>
 <td>currency_amount</td>
-<td><a href ="#currencyamount"><i>CurrencyAmount</i></a></td>
+<td><a href ="#currencyamount"><code>CurrencyAmount</code></a></td>
 <td>Amount to be refunded.</td>
 </tr>
 <tr>
 <td>sender_details</td>
-<td><a href ="#senderdetails"><i>SenderDetails</i></a></td>
+<td><a href ="#senderdetails"><code>SenderDetails</code></a></td>
 <td>Buyer&#39;s information.</td>
 </tr>
 <tr>
 <td>reasons</td>
-<td>Array[<a href ="#reason"><i>Reason</i></a>]</td>
+<td>Array[<a href ="#reason"><code>Reason</code></a>]</td>
 <td>The reasons for the refund.</td>
 </tr>
 <tr>
@@ -1974,7 +1978,7 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </tr>
 <tr>
 <td>source</td>
-<td><a href ="#source"><i>Source</i></a></td>
+<td><a href ="#source"><code>Source</code></a></td>
 <td>Transaction&#39;s agency origin.</td>
 </tr>
 <tr>
@@ -2000,14 +2004,14 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </span></code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>transactions</td>
-<td>Array[<a href ="#detailstransaction"><i>DetailsTransaction</i></a>]</td>
+<td>Array[<a href ="#detailstransaction"><code>DetailsTransaction</code></a>]</td>
 <td>Information bout the transaction done.</td>
 </tr>
 <tr>
@@ -2042,14 +2046,14 @@ All the endpoints work around HTTPS. HTTP request <b>will not</b> work.
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>credit_card</td>
-<td><a href ="#creditcarddata"><i>CreditCardData</i></a></td>
+<td><a href ="#creditcarddata"><code>CreditCardData</code></a></td>
 <td>Credit card raw data.</td>
 </tr>
 <tr>
@@ -2081,7 +2085,7 @@ The possible meta-data that can be stored with a credit card is `client_id`, `cl
 </code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -2118,7 +2122,7 @@ The possible meta-data that can be stored with a credit card is `client_id`, `cl
 </span></code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -2135,9 +2139,9 @@ The possible meta-data that can be stored with a credit card is `client_id`, `cl
 </tr>
 </tbody></table>
 
-<p>Where status takes the values <code>Success</code> or <code>Error</code>. If <code>Success</code>, <em>token</em> contains the unique token, if <code>Error</code>, <em>error_details</em> contains information related to the error occurred (see <a href ="#errordetails"><i>Appendix&#39;s section</a></i> for a deep description). Note that the token returned has 1 unique use. When used, the system will provide a new one (if desired), and will make the used one useless.</p>
+<p>Where status takes the values <code>Success</code> or <code>Error</code>. If <code>Success</code>, <em>token</em> contains the unique token, if <code>Error</code>, <em>error_details</em> contains information related to the error occurred (see <a href ="#errordetails"><code>Appendix&#39;s section&lt;/a&gt;</code> for a deep description). Note that the token returned has 1 unique use. When used, the system will provide a new one (if desired), and will make the used one useless.</p>
 <h2 id='retrieve'>Retrieve</h2>
-<p>This call will return the information associated to a token. Moreover, if you wish the data to remain saved, you should set the <em>retain</em> field to <code>True</code>.</p>
+<p>This method will return the information associated to a token. Moreover, if you wish the data to remain saved, you should set the <em>retain</em> field to <code>True</code>.</p>
 <h3 id='retriverq'>RetriveRQ</h3>
 <blockquote>
 <p>RetriveRQ example:</p>
@@ -2149,7 +2153,7 @@ The possible meta-data that can be stored with a credit card is `client_id`, `cl
 </span></code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -2177,7 +2181,7 @@ The possible meta-data that can be stored with a credit card is `client_id`, `cl
 </span></code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -2190,7 +2194,7 @@ The possible meta-data that can be stored with a credit card is `client_id`, `cl
 <tr>
 <td>token</td>
 <td>String</td>
-<td>Generated card data token. This field will only be returned if the field <i>retain</i> was sent, and its value was true. Other input will cause the data to be invalidated after returning it.</td>
+<td>Generated card data token. This field will only be returned if the field <code>retain</code> was sent, and its value was true. Other input will cause the data to be invalidated after returning it.</td>
 </tr>
 <tr>
 <td>status</td>
@@ -2440,7 +2444,7 @@ The possible meta-data that can be stored with a credit card is `client_id`, `cl
 </span></code></pre>
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -2461,7 +2465,7 @@ The possible meta-data that can be stored with a credit card is `client_id`, `cl
 
 <table><thead>
 <tr>
-<th>Node</th>
+<th>Attribute</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
@@ -2479,7 +2483,7 @@ The possible meta-data that can be stored with a credit card is `client_id`, `cl
 </tr>
 <tr>
 <td>process_moment</td>
-<td>Says when the error was produced (<code>BeforeCallProvider</code>, <code>WhileCallingProvider</code>, <code>AfterCallProvider</code>), which will help us to detect the error and will tell you if the provider call was done.</td>
+<td>Says when the error was produced (<code>BeforeCallProvider</code>, <code>WhileCallingProvider</code>, <code>AfterCallProvider</code>), which will help us to detect the error and will tell you if the provider method was done.</td>
 </tr>
 </tbody></table>
 <h1 id='errors'>Errors</h1>
