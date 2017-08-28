@@ -297,7 +297,7 @@
 </ul>
 
 <aside class="notice">
-You will find some types described as `String(SomeTypeName)`. This means that the type is an Enumerated type (of type `SomeTypeName`) and it has a closed set of values. You can find the enumerated types explained on the `<a href ="#additional-data-types">corresponding appendix section</a>`.
+You will find some types described as `String(SomeTypeName)`. This means that the type is an Enumerated type (of type `SomeTypeName`) and it has a closed set of values. You can find the enumerated types explained on the <a href ="#additional-data-types">corresponding appendix section</a>.
 </aside>
 <h2 id='endpoints'>Endpoints</h2>
 <p>The endpoints for each operation follow the same structure:</p>
@@ -420,7 +420,7 @@ This step is mandatory for payments but not required for fraud analysis.
 </thead><tbody>
 <tr>
 <td>currency_amount</td>
-<td><a href ="#currencyamount"><code>CurrencyAmount</code></a></td>
+<td><a href="#currencyamount"><code>CurrencyAmount</code></a></td>
 <td>Payment base amount where taxes will be applied. The `CurrencyAmount specifies the amount and the currency used for this payment. The currency code must be specified in ISO3 (ISO 4217)) format.</td>
 </tr>
 <tr>
@@ -440,7 +440,7 @@ This step is mandatory for payments but not required for fraud analysis.
 </tr>
 <tr>
 <td>fraud_information</td>
-<td><a href ="#fraudinformation"><code>FraudInformation</code></a></td>
+<td><a href="#fraudinformation"><code>FraudInformation</code></a></td>
 <td>This node can indicate previous fraud information so only secure gateways are returned.</td>
 </tr>
 <tr>
@@ -551,7 +551,7 @@ This step is mandatory for payments but not required for fraud analysis.
 </thead><tbody>
 <tr>
 <td>payment_methods</td>
-<td>Array[<a href ="#availablepaymentmethod"><code>AvailablePaymentMethod</code></a>]</td>
+<td>Array[<a href="#availablepaymentmethod"><code>AvailablePaymentMethod</code></a>]</td>
 <td>List of available payment methods.</td>
 </tr>
 <tr>
@@ -632,7 +632,7 @@ This step is mandatory for payments but not required for fraud analysis.
 </tr>
 <tr>
 <td>offline_transference_list</td>
-<td>Array[<a href ="#offlinetransference"><code>OfflineTransference</code></a>]</td>
+<td>Array[<a href="#offlinetransference"><code>OfflineTransference</code></a>]</td>
 <td>The list of the offline transference payment types avaliable.</td>
 </tr>
 </tbody></table>
@@ -896,22 +896,22 @@ This step is mandatory for payments but not required for fraud analysis.
 </tr>
 <tr>
 <td>address</td>
-<td><a href ="#address"><code>Address</code></a></td>
+<td><a href="#address"><code>Address</code></a></td>
 <td>Sender address.</td>
 </tr>
 <tr>
 <td>billing_address</td>
-<td><a href ="#address"><code>Address</code></a></td>
+<td><a href="#address"><code>Address</code></a></td>
 <td>Billing address.</td>
 </tr>
 <tr>
 <td>sender_bank_details</td>
-<td><a href ="#bankdetails"><code>BankDetails</code></a></td>
+<td><a href="#bankdetails"><code>BankDetails</code></a></td>
 <td>BankDetails Sender bank details.</td>
 </tr>
 <tr>
 <td>recipient_bank_details</td>
-<td><a href ="#bankdetails"><code>BankDetails</code></a></td>
+<td><a href="#bankdetails"><code>BankDetails</code></a></td>
 <td>Recipent bank details.</td>
 </tr>
 </tbody></table>
@@ -1007,7 +1007,7 @@ This step is mandatory for payments but not required for fraud analysis.
 </tr>
 <tr>
 <td>bank_account</td>
-<td><a href ="#bankaccount"><code>BankAccount</code></a></td>
+<td><a href="#bankaccount"><code>BankAccount</code></a></td>
 <td>Bank account data.</td>
 </tr>
 <tr>
@@ -1089,7 +1089,7 @@ This step is mandatory for payments but not required for fraud analysis.
 </thead><tbody>
 <tr>
 <td>rules_module</td>
-<td>Array[<a href ="#skeeperrule"><code>SkeeperRule</code></a>]</td>
+<td>Array[<a href="#skeeperrule"><code>SkeeperRule</code></a>]</td>
 <td>Array of Fraud rules to be applied (if no rules specified, it will be used the configured ones on the <em>SWAPPT FDS</em>&#39;s website.</td>
 </tr>
 <tr>
@@ -1115,13 +1115,13 @@ This step is mandatory for payments but not required for fraud analysis.
 <tr>
 <td>custom_data</td>
 <td>Key-Value</td>
-<td>Additional data that Fraud should know. It is a Key-Value field, where Keys are <em>SWAPPT FDS</em>’s tool names and values are the configurations for that tools:</td>
+<td>Additional data that Fraud should know. It is a Key-Value field, where Keys are <em>SWAPPT FDS</em>’s tool names and values are the configurations for that tools (find them next to this table).</td>
 </tr>
 </tbody></table>
 
-<p>* <code>Protect</code>: Key-Value containing the Custom Fields of the transaction, where Key is the Custom Field name, and Value it’s value (Custom Fields must be previously configured con <em>SWAPPT Protect</em>’s website, more info Here).
-    * <code>V5</code>: Comming soon
-    * <code>Sift_science</code>: Comming soon</p>
+<p>* <code>Protect</code>: Key-Value containing the Custom Fields of the transaction, where Key is the Custom Field name, and Value it’s value (Custom Fields must be previously configured con <em>SWAPPT Protect</em>’s website).<br>
+    * <code>V5</code>: Comming soon.<br>
+    * <code>Sift_science</code>: Comming soon.<br></p>
 <h3 id='skeeperrule'>SkeeperRule:</h3>
 <blockquote>
 <p>SkeeperRule Example: </p>
@@ -1149,7 +1149,7 @@ This step is mandatory for payments but not required for fraud analysis.
 <tr>
 <td>modules</td>
 <td>Key-Value</td>
-<td>The combination of results that the tools should return. Key: String(ToolCode) Value: <a href ="#module"><code>Module</code></a></td>
+<td>The combination of results that the tools should return. Key: String(ToolCode) Value: <a href="#module"><code>Module</code></a></td>
 </tr>
 <tr>
 <td>global_decision</td>
@@ -1245,11 +1245,11 @@ This step is mandatory for payments but not required for fraud analysis.
 <tr>
 <td>reference_token</td>
 <td>String</td>
-<td><a href ="#availablepaymentmethods"><code>AvailablePaymentMethods</code></a> response token.</td>
+<td><a href="#availablepaymentmethods"><code>AvailablePaymentMethods</code></a></td>
 </tr>
 <tr>
 <td>payment_details</td>
-<td><a href ="#paymentdetails"><code>PaymentDetails</code></a></td>
+<td><a href="#paymentdetails"><code>PaymentDetails</code></a></td>
 <td>Information about the payment.</td>
 </tr>
 <tr>
@@ -1269,7 +1269,7 @@ This step is mandatory for payments but not required for fraud analysis.
 </tr>
 <tr>
 <td>source</td>
-<td><a href ="#source"><code>Source</code></a></td>
+<td><a href="#source"><code>Source</code></a></td>
 <td>Transaction&#39;s agency origin.</td>
 </tr>
 <tr>
@@ -1332,12 +1332,12 @@ This step is mandatory for payments but not required for fraud analysis.
 </tr>
 <tr>
 <td>reasons</td>
-<td>Array[<a href ="#reason"><code>Reason</code></a>]</td>
+<td>Array[<a href="#reason"><code>Reason</code></a>]</td>
 <td>Payment breakdown in reasons format (mandatory).</td>
 </tr>
 <tr>
 <td>payment_items_details</td>
-<td><a href ="#paymentitemdetails"><code>PaymentItemDetails</code></a></td>
+<td><a href="#paymentdetails"><code>PaymentDetails</code></a></td>
 <td>Payment breakdown in items (mandatory).</td>
 </tr>
 <tr>
@@ -1530,12 +1530,12 @@ This step is mandatory for payments but not required for fraud analysis.
 </thead><tbody>
 <tr>
 <td>fraud_response</td>
-<td><a href ="#fraudprocessrs"><code>FraudProcessRS</code></a></td>
+<td><a href="#fraudprocessrs"><code>FraudProcessRS</code></a></td>
 <td><em>FDS</em> result information.</td>
 </tr>
 <tr>
 <td>payment_response</td>
-<td><a href ="#paymentprocessrs"><code>PaymentProcessRS</code></a></td>
+<td><a href="#paymentprocessrs"><code>PaymentProcessRS</code></a></td>
 <td><em>Switcher</em> response.</td>
 </tr>
 <tr>
@@ -1588,12 +1588,12 @@ This step is mandatory for payments but not required for fraud analysis.
 </thead><tbody>
 <tr>
 <td>transaction</td>
-<td><a href ="#paymenttransaction"><code>PaymentTransaction</code></a></td>
+<td><a href="#paymenttransaction"><code>PaymentTransaction</code></a></td>
 <td>Information about the transaction done.</td>
 </tr>
 <tr>
 <td>redirect</td>
-<td><a href ="#redirect"><code>Redirect</code></a></td>
+<td><a href="#redirect"><code>Redirect</code></a></td>
 <td>Redirect information.</td>
 </tr>
 </tbody></table>
@@ -1642,7 +1642,7 @@ This step is mandatory for payments but not required for fraud analysis.
 </tr>
 <tr>
 <td>currency_amount</td>
-<td><a href ="#currencyamount"><code>CurrencyAmount</code></a></td>
+<td><a href="#currencyamount"><code>CurrencyAmount</code></a></td>
 <td>Transaction&#39;s amount.</td>
 </tr>
 <tr>
@@ -1695,7 +1695,7 @@ This step is mandatory for payments but not required for fraud analysis.
 </tr>
 <tr>
 <td>form_inputs</td>
-<td><a href ="#forminput"><code>FormInput</code></a></td>
+<td><a href="#forminput"><code>FormInput</code></a></td>
 <td>Inputs to add to the redirect method.</td>
 </tr>
 </tbody></table>
@@ -1784,7 +1784,7 @@ This step is mandatory for payments but not required for fraud analysis.
 </tr>
 <tr>
 <td>source</td>
-<td><a href ="#source"><code>Source</code></a></td>
+<td><a href="#source"><code>Source</code></a></td>
 <td>Transaction&#39;s agency origin.</td>
 </tr>
 <tr>
@@ -1817,7 +1817,7 @@ This step is mandatory for payments but not required for fraud analysis.
 </thead><tbody>
 <tr>
 <td>transactions</td>
-<td>Array[<a href ="#detailstransaction"><code>DetailsTransaction</code></a>]</td>
+<td>Array[<a href="#detailstransaction"><code>DetailsTransaction</code></a>]</td>
 <td>Details of every transaction involving this payment.</td>
 </tr>
 <tr>
@@ -1878,7 +1878,7 @@ This step is mandatory for payments but not required for fraud analysis.
 </tr>
 <tr>
 <td>currency_amount</td>
-<td><a href ="#currencyamount"><code>CurrencyAmount</code></a></td>
+<td><a href="#currencyamount"><code>CurrencyAmount</code></a></td>
 <td>Transaction&#39;s amount.</td>
 </tr>
 <tr>
@@ -1903,12 +1903,12 @@ This step is mandatory for payments but not required for fraud analysis.
 </tr>
 <tr>
 <td>refund_reasons</td>
-<td>Array[<a href ="#reason"><code>Reason</code></a>]</td>
+<td>Array[<a href="#reason"><code>Reason</code></a>]</td>
 <td>Refund reasons.</td>
 </tr>
 <tr>
 <td>refunded_currency_amount</td>
-<td><a href ="#currencyamount"><code>CurrencyAmount</code></a></td>
+<td><a href="#currencyamount"><code>CurrencyAmount</code></a></td>
 <td>If a refund was done, the amount that was refunded.</td>
 </tr>
 </tbody></table>
@@ -1953,17 +1953,17 @@ This step is mandatory for payments but not required for fraud analysis.
 </tr>
 <tr>
 <td>currency_amount</td>
-<td><a href ="#currencyamount"><code>CurrencyAmount</code></a></td>
+<td><a href="#currencyamount"><code>CurrencyAmount</code></a></td>
 <td>Amount to be refunded.</td>
 </tr>
 <tr>
 <td>sender_details</td>
-<td><a href ="#senderdetails"><code>SenderDetails</code></a></td>
+<td><a href="#senderdetails"><code>SenderDetails</code></a></td>
 <td>Buyer&#39;s information.</td>
 </tr>
 <tr>
 <td>reasons</td>
-<td>Array[<a href ="#reason"><code>Reason</code></a>]</td>
+<td>Array[<a href="#reason"><code>Reason</code></a>]</td>
 <td>The reasons for the refund.</td>
 </tr>
 <tr>
@@ -1978,7 +1978,7 @@ This step is mandatory for payments but not required for fraud analysis.
 </tr>
 <tr>
 <td>source</td>
-<td><a href ="#source"><code>Source</code></a></td>
+<td><a href="#source"><code>Source</code></a></td>
 <td>Transaction&#39;s agency origin.</td>
 </tr>
 <tr>
@@ -2011,7 +2011,7 @@ This step is mandatory for payments but not required for fraud analysis.
 </thead><tbody>
 <tr>
 <td>transactions</td>
-<td>Array[<a href ="#detailstransaction"><code>DetailsTransaction</code></a>]</td>
+<td>Array[<a href="#detailstransaction"><code>DetailsTransaction</code></a>]</td>
 <td>Information bout the transaction done.</td>
 </tr>
 <tr>
@@ -2053,7 +2053,7 @@ This step is mandatory for payments but not required for fraud analysis.
 </thead><tbody>
 <tr>
 <td>credit_card</td>
-<td><a href ="#creditcarddata"><code>CreditCardData</code></a></td>
+<td><a href="#creditcarddata"><code>CreditCardData</code></a></td>
 <td>Credit card raw data.</td>
 </tr>
 <tr>
@@ -2139,7 +2139,7 @@ The possible meta-data that can be stored with a credit card is `client_id`, `cl
 </tr>
 </tbody></table>
 
-<p>Where status takes the values <code>Success</code> or <code>Error</code>. If <code>Success</code>, <em>token</em> contains the unique token, if <code>Error</code>, <em>error_details</em> contains information related to the error occurred (see <a href="#errordetails"><code>Appendix&#39;s section</code></a> for a deep description). Note that the token returned has 1 unique use. When used, the system will provide a new one (if desired), and will make the used one useless.</p>
+<p>Where status takes the values <code>Success</code> or <code>Error</code>. If <code>Success</code>, <em>token</em> contains the unique token, if <code>Error</code>, <em>error_details</em> contains information related to the error occurred (see <a href="#errordetails">Appendix&#39;s section</a> ) for a deep description). Note that the token returned has 1 unique use. When used, the system will provide a new one (if desired), and will make the used one useless.</p>
 <h2 id='retrieve'>Retrieve</h2>
 <p>This method will return the information associated to a token. Moreover, if you wish the data to remain saved, you should set the <em>retain</em> field to <code>True</code>.</p>
 <h3 id='retriverq'>RetriveRQ</h3>
@@ -2471,7 +2471,7 @@ The possible meta-data that can be stored with a credit card is `client_id`, `cl
 </thead><tbody>
 <tr>
 <td>code</td>
-<td>The error code (detailed on <a href ="#errors">error codes section</a>).</td>
+<td>The error code (detailed on <a href="#errors">error codes section</a>).</td>
 </tr>
 <tr>
 <td>description</td>
